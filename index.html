@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>Hero EV VCI Diagnostic Tool Manager</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#050b14;
+    color:#eaf2ff;
+    min-height:100vh;
+}
+header{
+    height:72px;
+    background:linear-gradient(90deg,#08101d,#0b1729);
+    border-bottom:1px solid #1b314d;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-weight:800;
+    font-size:21px;
+}
+.logoIcon{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#ef3340,#ff7a00);
+    display:grid;
+    place-items:center;
+    font-size:22px;
+    font-weight:900;
+}
+.topStatus{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.statusDot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#00e676;
+    box-shadow:0 0 12px #00e676;
+}
+.container{
+    display:grid;
+    grid-template-columns:245px 1fr;
+    min-height:calc(100vh - 72px);
+}
+.sidebar{
+    background:#07111e;
+    border-right:1px solid #172a42;
+    padding:20px 12px;
+}
+.navTitle{
+    color:#607995;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    padding:12px;
+}
+.nav button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#a9bad0;
+    text-align:left;
+    padding:13px 14px;
+    margin:3px 0;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:14px;
+}
+.nav button:hover,.nav button.active{
+    background:#10243b;
+    color:#fff;
+}
+.main{
+    padding:24px;
+    overflow:hidden;
+}
+.page{display:none}
+.page.active{display:block}
+.pageHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+.pageHeader h1{
+    font-size:25px;
+}
+.pageHeader p{
+    color:#7790ab;
+    margin-top:5px;
+}
+.btn{
+    border:1px solid #29445f;
+    background:#102136;
+    color:#eaf2ff;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+.btn:hover{background:#18304b}
+.btn.primary{
+    background:#e52d3d;
+    border-color:#e52d3d;
+}
+.btn.green{
+    background:#087f5b;
+    border-color:#087f5b;
+}
+.grid{
+    display:grid;
+    gap:16px;
+}
+.cards{
+    grid-template-columns:repeat(4,1fr);
+}
+.card{
+    background:linear-gradient(145deg,#0a1727,#0b1c30);
+    border:1px solid #19324c;
+    border-radius:14px;
+    padding:19px;
+}
+.cardLabel{
+    color:#7690aa;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+.cardValue{
+    font-size:28px;
+    font-weight:800;
+    margin-top:9px;
+}
+.cardSub{
+    color:#6e879f;
+    font-size:12px;
+    margin-top:7px;
+}
+.twoCol{
+    grid-template-columns:1.5fr 1fr;
+    margin-top:18px;
+}
+.panel{
+    background:#081523;
+    border:1px solid #19324c;
+    border-radius:14px;
+    overflow:hidden;
+}
+.panelHeader{
+    padding:16px 18px;
+    border-bottom:1px solid #19324c;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.panelHeader h3{font-size:15px}
+.panelBody{padding:18px}
+.vehicleBox{
+    background:linear-gradient(135deg,#0c2337,#0b1727);
+    border:1px solid #1c5270;
+    padding:20px;
+    border-radius:12px;
+}
+.vehicleTop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.vehicleName{
+    font-size:24px;
+    font-weight:800;
+}
+.badge{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    background:#123b36;
+    color:#5dffcf;
+}
+.vehicleGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:18px;
+}
+.info{
+    background:#07121f;
+    padding:12px;
+    border-radius:8px;
+}
+.info small{
+    display:block;
+    color:#6d849c;
+    font-size:10px;
+}
+.info strong{
+    display:block;
+    margin-top:5px;
+    font-size:13px;
+}
+.ecuGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+.ecu{
+    border:1px solid #1c344d;
+    padding:15px;
+    border-radius:10px;
+    background:#091827;
+    cursor:pointer;
+}
+.ecu:hover{
+    border-color:#2b7ba3;
+    transform:translateY(-1px);
+}
+.ecuIcon{
+    font-size:22px;
+    margin-bottom:8px;
+}
+.ecuName{font-weight:700}
+.ecuStatus{
+    color:#00d99b;
+    font-size:11px;
+    margin-top:5px;
+}
+.tableWrap{overflow:auto}
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+th,td{
+    padding:12px 14px;
+    border-bottom:1px solid #172b40;
+    text-align:left;
+    font-size:12px;
+}
+th{
+    color:#7e96ae;
+    font-size:10px;
+    text-transform:uppercase;
+}
+td{color:#d6e2ef}
+select,input{
+    background:#07121f;
+    color:#eaf2ff;
+    border:1px solid #28425d;
+    padding:10px 12px;
+    border-radius:8px;
+    outline:none;
+}
+select:focus,input:focus{border-color:#3194c2}
+.filters{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+}
+.moduleGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+.module{
+    padding:17px;
+    background:#091827;
+    border:1px solid #1a344c;
+    border-radius:10px;
+}
+.module h4{font-size:14px}
+.module p{
+    color:#738ca5;
+    font-size:11px;
+    margin-top:5px;
+}
+.progress{
+    height:8px;
+    background:#16293d;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:12px;
+}
+.progressBar{
+    height:100%;
+    width:0%;
+    background:#00d99b;
+    transition:width .3s;
+}
+.dtc{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px;
+    border-bottom:1px solid #182c41;
+}
+.dtcCode{
+    color:#ffb84d;
+    font-weight:800;
+}
+.danger{color:#ff6372}
+.ok{color:#00d99b}
+.liveGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+.live{
+    background:#07121f;
+    border:1px solid #1b324b;
+    border-radius:10px;
+    padding:15px;
+}
+.live label{
+    color:#7189a1;
+    font-size:11px;
+}
+.liveValue{
+    font-size:23px;
+    font-weight:800;
+    margin-top:8px;
+}
+.log{
+    height:180px;
+    overflow:auto;
+    background:#03080e;
+    padding:14px;
+    font-family:monospace;
+    font-size:11px;
+    color:#75e5c2;
+    line-height:1.8;
+}
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    z-index:500;
+    align-items:center;
+    justify-content:center;
+}
+.modal.show{display:flex}
+.modalBox{
+    width:min(650px,92%);
+    background:#091827;
+    border:1px solid #284763;
+    border-radius:15px;
+    padding:22px;
+}
+.modalHead{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+.close{
+    cursor:pointer;
+    font-size:24px;
+    color:#839ab2;
+}
+.flashSteps{
+    display:flex;
+    gap:8px;
+    margin:15px 0;
+}
+.step{
+    flex:1;
+    padding:9px;
+    text-align:center;
+    background:#101f31;
+    border-radius:7px;
+    font-size:11px;
+}
+.step.active{background:#0b7659}
+.alert{
+    padding:12px;
+    background:#251c0c;
+    border:1px solid #72541c;
+    color:#ffd278;
+    border-radius:8px;
+    font-size:12px;
+    margin-bottom:15px;
+}
+footer{
+    margin-top:25px;
+    color:#526b84;
+    font-size:11px;
+    text-align:center;
+}
+@media(max-width:1050px){
+    .cards{grid-template-columns:repeat(2,1fr)}
+    .twoCol{grid-template-columns:1fr}
+    .moduleGrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:750px){
+    .container{grid-template-columns:1fr}
+    .sidebar{display:none}
+    .main{padding:15px}
+    .vehicleGrid,.liveGrid{grid-template-columns:repeat(2,1fr)}
+    .cards{grid-template-columns:1fr 1fr}
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <div class="logoIcon">H</div>
+        <div>
+            HERO EV VCI
+            <div style="font-size:10px;color:#6e8aa6;font-weight:500">DIAGNOSTIC TOOL MANAGER</div>
+        </div>
+    </div>
+    <div class="topStatus">
+        <span class="statusDot"></span>
+        <span id="connectionText">VCI Disconnected</span>
+        <button class="btn" onclick="connectVCI()">Connect VCI</button>
+    </div>
+</header>
+
+<div class="container">
+
+<aside class="sidebar">
+    <div class="navTitle">Main Menu</div>
+    <div class="nav">
+        <button class="active" onclick="showPage('dashboard',this)">◈ Dashboard</button>
+        <button onclick="showPage('diagnostics',this)">⌕ Diagnostics</button>
+        <button onclick="showPage('live',this)">◉ Live Data</button>
+        <button onclick="showPage('dtc',this)">⚠ DTC Manager</button>
+        <button onclick="showPage('firmware',this)">↻ Firmware Manager</button>
+        <button onclick="showPage('flashing',this)">⚡ Flashing</button>
+        <button onclick="showPage('vehicle',this)">▣ Vehicle Info</button>
+        <button onclick="showPage('history',this)">◷ History</button>
+    </div>
+
+```
+<div class="navTitle">System</div>
+<div class="nav">
+    <button onclick="showPage('settings',this)">⚙ Settings</button>
+    <button onclick="about()">ⓘ About</button>
+</div>
+```
+
+</aside>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+<div class="pageHeader">
+<div>
+<h1>Diagnostic Dashboard</h1>
+<p>Hero EV VCI diagnostic and firmware management console</p>
+</div>
+<button class="btn primary" onclick="startScan()">Start Full Scan</button>
+</div>
+
+<div class="grid cards">
+<div class="card"><div class="cardLabel">VCI Status</div><div class="cardValue ok" id="dashVCI">OFFLINE</div><div class="cardSub">Communication interface</div></div>
+<div class="card"><div class="cardLabel">Vehicle</div><div class="cardValue">V1 PRO</div><div class="cardSub">Hero VIDA EV</div></div>
+<div class="card"><div class="cardLabel">ECU Modules</div><div class="cardValue">7</div><div class="cardSub">Supported modules</div></div>
+<div class="card"><div class="cardLabel">DTC Status</div><div class="cardValue ok" id="dashDTC">0</div><div class="cardSub">Active diagnostic codes</div></div>
+</div>
+
+<div class="grid twoCol">
+<div class="panel">
+<div class="panelHeader"><h3>Connected Vehicle</h3><span class="badge">READY</span></div>
+<div class="panelBody">
+<div class="vehicleBox">
+<div class="vehicleTop">
+<div>
+<div style="color:#6d879f;font-size:11px">SELECTED VEHICLE</div>
+<div class="vehicleName" id="vehicleTitle">V1 PRO</div>
+</div>
+<div style="font-size:38px">🛵</div>
+</div>
+<div class="vehicleGrid">
+<div class="info"><small>VIN</small><strong id="vinDisplay">Not Connected</strong></div>
+<div class="info"><small>MODEL YEAR</small><strong>2026</strong></div>
+<div class="info"><small>BATTERY SOC</small><strong id="soc">78%</strong></div>
+<div class="info"><small>ODOMETER</small><strong>12,450 km</strong></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="panel">
+<div class="panelHeader"><h3>ECU Health</h3></div>
+<div class="panelBody">
+<div class="ecuGrid">
+<div class="ecu"><div class="ecuIcon">◈</div><div class="ecuName">TCU</div><div class="ecuStatus">● ONLINE</div></div>
+<div class="ecu"><div class="ecuIcon">◉</div><div class="ecuName">VCU</div><div class="ecuStatus">● ONLINE</div></div>
+<div class="ecu"><div class="ecuIcon">⚙</div><div class="ecuName">MCU</div><div class="ecuStatus">● ONLINE</div></div>
+<div class="ecu"><div class="ecuIcon">▣</div><div class="ecuName">EHL</div><div class="ecuStatus">● ONLINE</div></div>
+<div class="ecu"><div class="ecuIcon">▤</div><div class="ecuName">BMS-1</div><div class="ecuStatus">● ONLINE</div></div>
+<div class="ecu"><div class="ecuIcon">▤</div><div class="ecuName">BMS-1B</div><div class="ecuStatus">● ONLINE</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- DIAGNOSTICS -->
+
+<section id="diagnostics" class="page">
+<div class="pageHeader">
+<div><h1>Diagnostics</h1><p>Scan and inspect vehicle control modules</p></div>
+<button class="btn primary" onclick="startScan()">Run Full Diagnostic</button>
+</div>
+
+<div class="panel">
+<div class="panelHeader"><h3>ECU Module Diagnostics</h3></div>
+<div class="panelBody">
+<div class="moduleGrid">
+<div class="module"><h4>TCU</h4><p>Telematics Control Unit</p><button class="btn" onclick="scanECU('TCU')">Scan</button></div>
+<div class="module"><h4>VCU</h4><p>Vehicle Control Unit</p><button class="btn" onclick="scanECU('VCU')">Scan</button></div>
+<div class="module"><h4>MCU</h4><p>Motor Control Unit</p><button class="btn" onclick="scanECU('MCU')">Scan</button></div>
+<div class="module"><h4>EHL</h4><p>Electronic Hardware Layer</p><button class="btn" onclick="scanECU('EHL')">Scan</button></div>
+<div class="module"><h4>BMS-1</h4><p>Battery Management System</p><button class="btn" onclick="scanECU('BMS-1')">Scan</button></div>
+<div class="module"><h4>BMS-1B</h4><p>Battery Management System B</p><button class="btn" onclick="scanECU('BMS-1B')">Scan</button></div>
+<div class="module"><h4>BMS-1X</h4><p>Battery Management System X</p><button class="btn" onclick="scanECU('BMS-1X')">Scan</button></div>
+</div>
+</div>
+</div>
+
+<div class="panel" style="margin-top:16px">
+<div class="panelHeader"><h3>Diagnostic Console</h3></div>
+<div class="log" id="console">System ready. Connect VCI to begin diagnostics...</div>
+</div>
+</section>
+
+<!-- LIVE DATA -->
+
+<section id="live" class="page">
+<div class="pageHeader">
+<div><h1>Live Data</h1><p>Real-time vehicle parameters</p></div>
+<button class="btn green" onclick="toggleLive()">Start Live Data</button>
+</div>
+
+<div class="liveGrid">
+<div class="live"><label>BATTERY SOC</label><div class="liveValue" id="liveSoc">78%</div></div>
+<div class="live"><label>BATTERY VOLTAGE</label><div class="liveValue" id="liveVoltage">52.4 V</div></div>
+<div class="live"><label>BATTERY CURRENT</label><div class="liveValue" id="liveCurrent">4.8 A</div></div>
+<div class="live"><label>MOTOR RPM</label><div class="liveValue" id="liveRPM">0</div></div>
+<div class="live"><label>MOTOR TEMP</label><div class="liveValue">32 °C</div></div>
+<div class="live"><label>BMS TEMP</label><div class="liveValue">29 °C</div></div>
+<div class="live"><label>VEHICLE SPEED</label><div class="liveValue" id="liveSpeed">0 km/h</div></div>
+<div class="live"><label>12V BATTERY</label><div class="liveValue">12.6 V</div></div>
+</div>
+</section>
+
+<!-- DTC -->
+
+<section id="dtc" class="page">
+<div class="pageHeader">
+<div><h1>DTC Manager</h1><p>Diagnostic trouble code management</p></div>
+<div>
+<button class="btn" onclick="scanDTC()">Read DTC</button>
+<button class="btn primary" onclick="clearDTC()">Clear DTC</button>
+</div>
+</div>
+
+<div class="panel">
+<div class="panelHeader"><h3>Stored Diagnostic Trouble Codes</h3><span id="dtcCount" class="badge">0 CODES</span></div>
+<div id="dtcList">
+<div style="padding:30px;text-align:center;color:#68809a">No diagnostic trouble codes detected.</div>
+</div>
+</div>
+</section>
+
+<!-- FIRMWARE -->
+
+<section id="firmware" class="page">
+<div class="pageHeader">
+<div><h1>Firmware Manager</h1><p>Search firmware records by model and ECU</p></div>
+</div>
+
+<div class="filters">
+<select id="modelFilter" onchange="renderFirmware()">
+<option value="">All Models</option>
+<option>V1 PRO</option>
+<option>V1 PLUS</option>
+<option>V2 PRO</option>
+<option>V2 PLUS</option>
+<option>V2 LITE</option>
+<option>VX2 PLUS</option>
+<option>VX2 GO</option>
+</select>
+
+<select id="ecuFilter" onchange="renderFirmware()">
+<option value="">All ECU</option>
+<option>TCU</option>
+<option>VCU</option>
+<option>MCU</option>
+<option>EHL</option>
+<option>BMS-1</option>
+<option>BMS-1B</option>
+<option>BMS-1X</option>
+</select>
+
+<input id="searchFirmware" oninput="renderFirmware()" placeholder="Search file name...">
+</div>
+
+<div class="panel">
+<div class="tableWrap">
+<table>
+<thead>
+<tr>
+<th>File Name</th>
+<th>Module</th>
+<th>Platform</th>
+<th>Model</th>
+<th>Component</th>
+<th>Build ID</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="firmwareTable"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- FLASHING -->
+
+<section id="flashing" class="page">
+<div class="pageHeader">
+<div><h1>Firmware Flashing Manager</h1><p>Authorized firmware deployment workflow</p></div>
+</div>
+
+<div class="alert">
+⚠ Firmware flashing can permanently affect ECU operation. Use only authorized firmware and compatible vehicle/ECU combinations. Do not interrupt power or communication during an actual programming operation.
+</div>
+
+<div class="panel">
+<div class="panelHeader"><h3>Programming Session</h3></div>
+<div class="panelBody">
+<div class="filters">
+<select id="flashModel">
+<option>V1 PRO</option>
+<option>V1 PLUS</option>
+<option>V2 PRO</option>
+<option>V2 PLUS</option>
+<option>V2 LITE</option>
+<option>VX2 PLUS</option>
+<option>VX2 GO</option>
+</select>
+<select id="flashECU">
+<option>VCU</option>
+<option>MCU</option>
+<option>TCU</option>
+<option>EHL</option>
+<option>BMS-1</option>
+<option>BMS-1B</option>
+<option>BMS-1X</option>
+</select>
+</div>
+
+<div class="flashSteps">
+<div class="step active">1. Connect VCI</div>
+<div class="step">2. Identify ECU</div>
+<div class="step">3. Verify Firmware</div>
+<div class="step">4. Program</div>
+<div class="step">5. Verify</div>
+</div>
+
+<div style="margin:20px 0">
+<label style="font-size:12px;color:#7891aa">Selected Firmware File</label>
+<input id="flashFile" style="width:100%;margin-top:7px" placeholder="Select firmware from Firmware Manager">
+</div>
+
+<div class="progress"><div class="progressBar" id="flashProgress"></div></div>
+
+<div style="margin-top:18px;display:flex;gap:10px">
+<button class="btn" onclick="verifyFirmware()">Verify Compatibility</button>
+<button class="btn primary" onclick="startFlash()">Start Programming</button>
+</div>
+
+<div class="log" id="flashLog" style="margin-top:18px">Programming console ready...</div>
+</div>
+</div>
+</section>
+
+<!-- VEHICLE -->
+
+<section id="vehicle" class="page">
+<div class="pageHeader">
+<div><h1>Vehicle Information</h1><p>VIN and vehicle identification</p></div>
+<button class="btn primary" onclick="saveVehicle()">Save Vehicle</button>
+</div>
+
+<div class="panel">
+<div class="panelBody">
+<div class="filters">
+<input id="vinInput" placeholder="Enter VIN" style="width:300px">
+<select id="vehicleModel">
+<option>V1 PRO</option>
+<option>V1 PLUS</option>
+<option>V2 PRO</option>
+<option>V2 PLUS</option>
+<option>V2 LITE</option>
+<option>VX2 PLUS</option>
+<option>VX2 GO</option>
+</select>
+</div>
+
+<div class="vehicleGrid">
+<div class="info"><small>VIN</small><strong id="infoVIN">Not Available</strong></div>
+<div class="info"><small>MODEL</small><strong id="infoModel">V1 PRO</strong></div>
+<div class="info"><small>ECU COUNT</small><strong>7</strong></div>
+<div class="info"><small>VCI INTERFACE</small><strong id="infoVCI">Disconnected</strong></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- HISTORY -->
+
+<section id="history" class="page">
+<div class="pageHeader">
+<div><h1>Service History</h1><p>Diagnostic and programming activity</p></div>
+<button class="btn" onclick="clearHistory()">Clear History</button>
+</div>
+
+<div class="panel">
+<div class="tableWrap">
+<table>
+<thead>
+<tr><th>Date</th><th>Operation</th><th>Vehicle</th><th>Result</th></tr>
+</thead>
+<tbody id="historyTable"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+<div class="pageHeader">
+<div><h1>Settings</h1><p>Application configuration</p></div>
+</div>
+
+<div class="panel">
+<div class="panelBody">
+<div class="filters">
+<label>VCI Interface</label>
+<select>
+<option>WebUSB / WebSerial</option>
+<option>Demo / Simulation Mode</option>
+</select>
+</div>
+<div class="alert">
+This browser application currently operates as a diagnostic management interface and simulator. Actual vehicle ECU communication requires compatible VCI hardware and supported communication protocols.
+</div>
+</div>
+</div>
+</section>
+
+<footer>
+Hero EV VCI Diagnostic Tool Manager • Browser Application • Use authorized diagnostic procedures only
+</footer>
+
+</main>
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+<div class="modalBox">
+<div class="modalHead">
+<h2 id="modalTitle">VCI Connection</h2>
+<span class="close" onclick="closeModal()">×</span>
+</div>
+<div id="modalContent"></div>
+</div>
+</div>
+
+<script>
+
+const firmwareData = [
+
+["TCU_RELFW_04.03.00_EV_VCI.hex","HERO_EV_TCU","V1","V1 PRO","TCU","TCUACPAEV1234567"],
+["VCU_ACPA_C4CO_SW.s37","HERO_EV_VCU","V1","V1 PRO","VCU","VCUACPAEV1234567"],
+["HERO_MCU_EBAC_C4.1.0.s37","HERO_EV_MCU","V1","V1 PRO","MCU","MCUACPAEV1234567"],
+["SMIT_VAS_033_20_Hero_ACPA_APP_V_3_3_VFLASH.hex","HERO_EV_EHL","V1","V1 PRO","EHL","EHLACPAEV1234567"],
+["hmclPostSop_fuseEnabled_v8691.bin","HERO_EV_BMS1","V1","V1 PRO","BMS-1","R4"],
+["hmclPostSop_fuseEnabled_v8691_device_config.bin","HERO_EV_BMS1B","V1","V1 PRO","BMS-1B","R4"],
+["8691v1_pre_install.json","HERO_EV_BMS1X","V1","V1 PRO","BMS-1X","V1PROBMS1XEV"],
+
+["TCU_RELFW_04.03.00_EV_VCI.hex","HERO_EV_TCU","V1","V1 PLUS","TCU","TCUACPAEV1234567"],
+["VCU_ACPA_C4CO_SW.s37","HERO_EV_VCU","V1","V1 PLUS","VCU","VCUACPAEV1234567"],
+["HERO_MCU_EBAC_C4.1.0.s37","HERO_EV_MCU","V1","V1 PLUS","MCU","MCUACPAEV1234567"],
+["SMIT_VAS_033_20_Hero_ACPA_APP_V_3_3_VFLASH.hex","HERO_EV_EHL","V1","V1 PLUS","EHL","EHLACPAEV1234567"],
+["hmclPostSop_fuseEnabled_v7691.bin","HERO_EV_BMS1","V1","V1 PLUS","BMS-1","R4"],
+["hmclPostSop_fuseEnabled_v7691_device_config.bin","HERO_EV_BMS1B","V1","V1 PLUS","BMS-1B","R4"],
+["7691v1_pre_install.json","HERO_EV_BMS1X","V1","V1 PLUS","BMS-1X","V1PLUSBMS1XEV"],
+
+["VCU_BROSE_ACPC_C630.s37","HERO_EV_VCU","V2","V2 PRO","VCU","VCUACPAEV1234567"],
+["HERO_MCU_EBAC_C4.1.0.s37","HERO_EV_MCU","V2","V2 PRO","MCU","MCUACPAEV1234567"],
+["hmclAVA+Branch_v358_8P.bin","HERO_EV_BMS1","V2","V2 PRO","BMS-1","AVA+"],
+["hmclAVA+Branch_v358_8P_device_config.bin","HERO_EV_BMS1B","V2","V2 PRO","BMS-1B","AVA+"],
+["358v1_pre_install.json","HERO_EV_BMS1X","V2","V2 PRO","BMS-1X","V2PROBMS1XEV"],
+
+["VCU_BROSE_ACPC_C630.s37","HERO_EV_VCU","V2","V2 PLUS","VCU","VCUACPAEV1234567"],
+["HERO_MCU_EBAC_C4.1.0.s37","HERO_EV_MCU","V2","V2 PLUS","MCU","MCUACPAEV1234567"],
+["hmclAVA+Branch_v357_7P.bin","HERO_EV_BMS1","V2","V2 PLUS","BMS-1","AVA+"],
+["hmclAVA+Branch_v357_7P_device_config.bin","HERO_EV_BMS1B","V2","V2 PLUS","BMS-1B","AVA+"],
+["357v1_pre_install.json","HERO_EV_BMS1X","V2","V2 PLUS","BMS-1X","V2PROBMS1XEV"],
+
+["VCU_BROSE_ACPC_C630.s37","HERO_EV_VCU","V2","V2 LITE","VCU","VCUACPAEV1234567"],
+["HERO_MCU_EBAC_C4.1.0.s37","HERO_EV_MCU","V2","V2 LITE","MCU","MCUACPAEV1234567"],
+["hmclAVA+Branch_v359_9P.bin","HERO_EV_BMS1","V2","V2 LITE","BMS-1","AVA+"],
+["hmclAVA+Branch_v359_9P_device_config.bin","HERO_EV_BMS1B","V2","V2 LITE","BMS-1B","AVA+"],
+["359v1_pre_install.json","HERO_EV_BMS1X","V2","V2 LITE","BMS-1X","V2LITEBMS1XEV"],
+
+["HERO_ACPD_B4AA.10_1_0_TypSOR2.s37","HERO_EV_VCU","VX2","VX2 PLUS","VCU","VCUACPAEV1234567"],
+["HERO_MCU_EBAC_C4.1.0.s37","HERO_EV_MCU","VX2","VX2 PLUS","MCU","MCUACPAEV1234567"],
+["hmclAVA+_OTA_v7130_PostSop_D4AB00_Dummy7147.bin","HERO_EV_BMS1","VX2","VX2 PLUS","BMS-1","AVA+"],
+["hmclAVA+_OTA_v7130_PostSop_D4AB00_Dummy7147_device_config.bin","HERO_EV_BMS1B","VX2","VX2 PLUS","BMS-1B","AVA+"],
+["7130v1_pre_install.json","HERO_EV_BMS1X","VX2","VX2 PLUS","BMS-1X","VX2PLUSBMS1XEV"],
+
+["HERO_ACPD_B4AA.10_1_0_TypSOR2.s37","HERO_EV_VCU","VX2","VX2 GO","VCU","VCUACPAEV1234567"],
+["HERO_MCU_EBAC_C4.1.0.s37","HERO_EV_MCU","VX2","VX2 GO","MCU","MCUACPAEV1234567"],
+["hmclAVA+_OTA_v9130_PostSop_Dummy9147.bin","HERO_EV_BMS1","VX2","VX2 GO","BMS-1","AVA+"],
+["hmclAVA+_OTA_v9130_PostSop_Dummy9147_device_config.bin","HERO_EV_BMS1B","VX2","VX2 GO","BMS-1B","AVA+"],
+["9130v1_pre_install.json","HERO_EV_BMS1X","VX2","VX2 GO","BMS-1X","VX2GOBMS1XEV"]
+
+];
+
+let history = JSON.parse(localStorage.getItem("heroEVHistory") || "[]");
+let vciConnected = false;
+let liveRunning = false;
+let liveTimer;
+
+function showPage(id,btn){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+    if(btn) btn.classList.add("active");
+    if(id==="firmware") renderFirmware();
+    if(id==="history") renderHistory();
+}
+
+function log(message){
+    const box=document.getElementById("console");
+    box.innerHTML += "<br>["+new Date().toLocaleTimeString()+"] "+message;
+    box.scrollTop=box.scrollHeight;
+}
+
+function flashLog(message){
+    const box=document.getElementById("flashLog");
+    box.innerHTML += "<br>["+new Date().toLocaleTimeString()+"] "+message;
+    box.scrollTop=box.scrollHeight;
+}
+
+function connectVCI(){
+    vciConnected=!vciConnected;
+    const text=vciConnected?"VCI Connected":"VCI Disconnected";
+    document.getElementById("connectionText").textContent=text;
+    document.getElementById("dashVCI").textContent=vciConnected?"ONLINE":"OFFLINE";
+    document.getElementById("infoVCI").textContent=text;
+    log(vciConnected?"VCI interface connected successfully.":"VCI interface disconnected.");
+    addHistory("VCI Connection",vciConnected?"Connected":"Disconnected");
+}
+
+function startScan(){
+    if(!vciConnected){
+        alert("Please connect VCI first.");
+        return;
+    }
+    log("Starting full vehicle diagnostic scan...");
+    let modules=["TCU","VCU","MCU","EHL","BMS-1","BMS-1B","BMS-1X"];
+    modules.forEach((m,i)=>{
+        setTimeout(()=>log("Scanning "+m+" ... OK"),i*500);
+    });
+    setTimeout(()=>{
+        log("Full diagnostic scan completed.");
+        addHistory("Full Diagnostic Scan","PASS");
+    },4000);
+}
+
+function scanECU(ecu){
+    if(!vciConnected){
+        alert("Connect VCI first.");
+        return;
+    }
+    log("Starting "+ecu+" diagnostic scan...");
+    setTimeout(()=>log(ecu+" response received. No active faults."),1000);
+    addHistory(ecu+" Diagnostic Scan","PASS");
+}
+
+function scanDTC(){
+    if(!vciConnected){
+        alert("Connect VCI first.");
+        return;
+    }
+    const list=document.getElementById("dtcList");
+    list.innerHTML='<div style="padding:30px;text-align:center;color:#00d99b">✓ No active DTCs found.</div>';
+    document.getElementById("dtcCount").textContent="0 CODES";
+    document.getElementById("dashDTC").textContent="0";
+    addHistory("DTC Scan","NO FAULTS");
+}
+
+function clearDTC(){
+    if(!vciConnected){
+        alert("Connect VCI first.");
+        return;
+    }
+    alert("DTC clear request completed in simulation mode.");
+    addHistory("Clear DTC","SUCCESS");
+}
+
+function toggleLive(){
+    liveRunning=!liveRunning;
+    if(liveRunning){
+        liveTimer=setInterval(()=>{
+            document.getElementById("liveSoc").textContent=(76+Math.floor(Math.random()*4))+"%";
+            document.getElementById("liveVoltage").textContent=(51+Math.random()*3).toFixed(1)+" V";
+            document.getElementById("liveCurrent").textContent=(Math.random()*8).toFixed(1)+" A";
+            document.getElementById("liveRPM").textContent=Math.floor(Math.random()*500);
+            document.getElementById("liveSpeed").textContent=Math.floor(Math.random()*12)+" km/h";
+        },1000);
+    }else{
+        clearInterval(liveTimer);
+    }
+}
+
+function renderFirmware(){
+    const model=document.getElementById("modelFilter").value;
+    const ecu=document.getElementById("ecuFilter").value;
+    const search=document.getElementById("searchFirmware").value.toLowerCase();
+
+    const rows=firmwareData.filter(x=>{
+        return (!model||x[3]===model)&&
+               (!ecu||x[4]===ecu)&&
+               (!search||x[0].toLowerCase().includes(search));
+    });
+
+    document.getElementById("firmwareTable").innerHTML=rows.map(x=>`
+    <tr>
+    <td>${x[0]}</td>
+    <td>${x[1]}</td>
+    <td>${x[2]}</td>
+    <td><strong>${x[3]}</strong></td>
+    <td>${x[4]}</td>
+    <td>${x[5]}</td>
+    <td><button class="btn" onclick="selectFirmware('${x[0]}')">Select</button></td>
+    </tr>`).join("");
+}
+
+function selectFirmware(file){
+    document.getElementById("flashFile").value=file;
+    alert("Firmware selected:\n"+file+"\n\nOpen Flashing Manager to continue.");
+    addHistory("Firmware Selected",file);
+}
+
+function verifyFirmware(){
+    const file=document.getElementById("flashFile").value;
+    if(!file){
+        alert("Select a firmware file first.");
+        return;
+    }
+    flashLog("Checking firmware compatibility...");
+    setTimeout(()=>flashLog("Model compatibility check: PASSED"),700);
+    setTimeout(()=>flashLog("ECU compatibility check: PASSED"),1400);
+    setTimeout(()=>flashLog("Firmware verification completed."),2100);
+}
+
+function startFlash(){
+    const file=document.getElementById("flashFile").value;
+    if(!vciConnected){
+        alert("Connect VCI before programming.");
+        return;
+    }
+    if(!file){
+        alert("Select firmware first.");
+        return;
+    }
+
+    flashLog("Programming workflow initiated.");
+    flashLog("Safety checks completed.");
+    let progress=0;
+    const bar=document.getElementById("flashProgress");
+
+    const timer=setInterval(()=>{
+        progress+=10;
+        bar.style.width=progress+"%";
+        flashLog("Programming progress: "+progress+"%");
+        if(progress>=100){
+            clearInterval(timer);
+            flashLog("Programming simulation completed.");
+            flashLog("ECU verification: PASSED.");
+            addHistory("Firmware Programming", "SIMULATION PASS");
+        }
+    },400);
+}
+
+function saveVehicle(){
+    const vin=document.getElementById("vinInput").value || "TEST-VIN-001";
+    const model=document.getElementById("vehicleModel").value;
+
+    document.getElementById("infoVIN").textContent=vin;
+    document.getElementById("vinDisplay").textContent=vin;
+    document.getElementById("infoModel").textContent=model;
+    document.getElementById("vehicleTitle").textContent=model;
+
+    addHistory("Vehicle Identified",model);
+    alert("Vehicle information saved.");
+}
+
+function addHistory(operation,result){
+    history.unshift({
+        date:new Date().toLocaleString(),
+        operation,
+        vehicle:document.getElementById("vehicleModel")?.value || "V1 PRO",
+        result
+    });
+    localStorage.setItem("heroEVHistory",JSON.stringify(history));
+}
+
+function renderHistory(){
+    document.getElementById("historyTable").innerHTML=history.length?
+    history.map(x=>`
+    <tr>
+    <td>${x.date}</td>
+    <td>${x.operation}</td>
+    <td>${x.vehicle}</td>
+    <td class="ok">${x.result}</td>
+    </tr>`).join("")
+    :'<tr><td colspan="4" style="text-align:center">No history available.</td></tr>';
+}
+
+function clearHistory(){
+    if(confirm("Clear all service history?")){
+        history=[];
+        localStorage.removeItem("heroEVHistory");
+        renderHistory();
+    }
+}
+
+function about(){
+    document.getElementById("modalTitle").textContent="About Software";
+    document.getElementById("modalContent").innerHTML=`
+    <p style="color:#9ab0c6;line-height:1.7">
+    Hero EV VCI Diagnostic Tool Manager<br><br>
+    Browser-based diagnostic management interface with firmware database,
+    ECU modules, DTC management, live data simulator and programming workflow.
+    <br><br>
+    Version 1.0
+    </p>`;
+    document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+    document.getElementById("modal").classList.remove("show");
+}
+
+renderFirmware();
+renderHistory();
+
+</script>
+
+</body>
+</html>
