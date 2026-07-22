@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="Hero EV VCI Diagnostic Tool Manager">
+<link rel="manifest" href="manifest.json">
+<title>Hero EV VCI Diagnostic Manager</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brandmark">H</span><span><b>HERO EV VCI</b><small>DIAGNOSTIC TOOL MANAGER V2.0</small></span></div>
+  <div class="top-actions"><span id="vciPill" class="pill offline">● VCI Offline</span><button id="connectBtn" class="btn primary">Connect VCI</button></div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <div class="nav-title">Workspace</div>
+  <button class="nav active" data-page="dashboard">◈ Dashboard</button>
+  <button class="nav" data-page="diagnostics">⌕ Diagnostics</button>
+  <button class="nav" data-page="live">◉ Live Data</button>
+  <button class="nav" data-page="dtc">⚠ DTC Manager</button>
+  <button class="nav" data-page="firmware">↻ Firmware Manager</button>
+  <button class="nav" data-page="flashing">⚡ Flashing Workflow</button>
+  <button class="nav" data-page="vehicle">▣ Vehicle Info</button>
+  <button class="nav" data-page="history">◷ Service History</button>
+  <div class="nav-title">System</div>
+  <button class="nav" data-page="settings">⚙ Settings</button>
+</aside>
+<main class="main">
+<section id="dashboard" class="page active">
+<div class="page-head"><div><h1>Diagnostic Dashboard</h1><p>VCI connection, vehicle health and firmware overview.</p></div><button class="btn primary" id="fullScanBtn">Start Full Scan</button></div>
+<div class="cards">
+<div class="card"><small>VCI STATUS</small><strong id="dashVCI">OFFLINE</strong><span>Browser interface</span></div>
+<div class="card"><small>VEHICLE</small><strong id="dashModel">V1 PRO</strong><span id="dashVin">VIN not identified</span></div>
+<div class="card"><small>FIRMWARE RECORDS</small><strong id="fwCount">0</strong><span>Local database</span></div>
+<div class="card"><small>ACTIVE DTC</small><strong id="dashDtc">0</strong><span>Current session</span></div>
+</div>
+<div class="two-col">
+<div class="panel"><div class="panel-head"><h3>Vehicle Overview</h3><span class="badge ok">READY</span></div><div class="panel-body">
+<div class="vehicle"><div><small>SELECTED MODEL</small><h2 id="vehicleTitle">V1 PRO</h2></div><div class="scooter">🛵</div></div>
+<div class="info-grid">
+<div><small>VIN</small><b id="vehicleVin">Not Connected</b></div><div><small>BATTERY SOC</small><b id="soc">78%</b></div>
+<div><small>ODOMETER</small><b>12,450 km</b></div><div><small>ECU MODULES</small><b>7</b></div>
+</div></div></div>
+<div class="panel"><div class="panel-head"><h3>ECU Health</h3></div><div class="panel-body"><div id="ecuHealth" class="ecu-grid"></div></div></div>
+</div>
+<div class="panel"><div class="panel-head"><h3>System Console</h3></div><pre id="console" class="console">System ready. Connect a compatible VCI interface to begin.</pre></div>
+</section>
+
+<section id="diagnostics" class="page">
+<div class="page-head"><div><h1>Diagnostics</h1><p>Scan ECU modules and generate a diagnostic session.</p></div><button class="btn primary" id="diagnosticScanBtn">Run Full Diagnostic</button></div>
+<div class="panel"><div class="panel-head"><h3>ECU Modules</h3></div><div id="ecuCards" class="module-grid"></div></div>
+<div class="panel"><div class="panel-head"><h3>Diagnostic Console</h3></div><pre id="diagConsole" class="console">Ready.</pre></div>
+</section>
+
+<section id="live" class="page">
+<div class="page-head"><div><h1>Live Data</h1><p>Demo telemetry dashboard. Real data requires a supported VCI protocol.</p></div><button class="btn green" id="liveBtn">Start Live Data</button></div>
+<div id="liveGrid" class="live-grid"></div>
+</section>
+
+<section id="dtc" class="page">
+<div class="page-head"><div><h1>DTC Manager</h1><p>Read and clear diagnostic trouble codes.</p></div><div><button class="btn" id="readDtcBtn">Read DTC</button> <button class="btn danger" id="clearDtcBtn">Clear DTC</button></div></div>
+<div class="panel"><div class="panel-head"><h3>Stored Codes</h3><span id="dtcBadge" class="badge">0 CODES</span></div><div id="dtcList" class="empty">No diagnostic trouble codes detected.</div></div>
+</section>
+
+<section id="firmware" class="page">
+<div class="page-head"><div><h1>Firmware Manager</h1><p>Search the local firmware compatibility database.</p></div></div>
+<div class="filters"><select id="modelFilter"><option value="">All Models</option></select><select id="ecuFilter"><option value="">All ECU</option></select><input id="fwSearch" placeholder="Search file, module or build ID"></div>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>File</th><th>Module</th><th>Platform</th><th>Model</th><th>ECU</th><th>Build</th><th></th></tr></thead><tbody id="fwTable"></tbody></table></div></div>
+</section>
+
+<section id="flashing" class="page">
+<div class="page-head"><div><h1>Flashing Workflow</h1><p>Compatibility and programming session manager.</p></div></div>
+<div class="notice">Use only authorized firmware and compatible diagnostic hardware. This GitHub Pages project does not implement proprietary ECU flashing protocols.</div>
+<div class="panel"><div class="panel-body">
+<div class="filters"><select id="flashModel"></select><select id="flashEcu"></select></div>
+<label>Selected Firmware</label><input id="flashFile" class="wide" readonly placeholder="Select a compatible firmware from Firmware Manager">
+<div class="steps"><span class="active">1 Connect</span><span>2 Identify</span><span>3 Verify</span><span>4 Program</span><span>5 Verify</span></div>
+<div class="progress"><i id="flashProgress"></i></div>
+<div class="actions"><button class="btn" id="verifyBtn">Verify Compatibility</button><button class="btn primary" id="programBtn">Start Programming Workflow</button></div>
+<pre id="flashConsole" class="console">Programming workflow ready.</pre>
+</div></div>
+</section>
+
+<section id="vehicle" class="page">
+<div class="page-head"><div><h1>Vehicle Information</h1><p>Store the current vehicle identification locally.</p></div><button class="btn primary" id="saveVehicleBtn">Save Vehicle</button></div>
+<div class="panel"><div class="panel-body"><div class="form-grid"><label>VIN<input id="vinInput" placeholder="Enter VIN"></label><label>Model<select id="vehicleModel"></select></label></div></div></div>
+</section>
+
+<section id="history" class="page">
+<div class="page-head"><div><h1>Service History</h1><p>Local diagnostic and workflow activity.</p></div><button class="btn danger" id="clearHistoryBtn">Clear History</button></div>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Operation</th><th>Vehicle</th><th>Result</th></tr></thead><tbody id="historyTable"></tbody></table></div></div>
+</section>
+
+<section id="settings" class="page">
+<div class="page-head"><div><h1>Settings</h1><p>Application and VCI interface settings.</p></div></div>
+<div class="panel"><div class="panel-body">
+<div class="form-grid"><label>Connection Mode<select id="connectionMode"><option>Simulation / Demo</option><option>Web Serial</option><option>Web USB</option></select></label><label>Theme<select id="theme"><option>Dark</option><option>System</option></select></label></div>
+<div class="notice">Web Serial/WebUSB support depends on browser, operating system and the specific VCI hardware. A vendor SDK or documented protocol is required for actual vehicle communication.</div>
+</div></div>
+</section>
+</main>
+</div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

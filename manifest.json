@@ -1,0 +1,10 @@
+{
+  "name": "Hero EV VCI Diagnostic Manager",
+  "short_name": "Hero EV VCI",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050b14",
+  "theme_color": "#07111f",
+  "description": "Browser-based Hero EV VCI diagnostic and firmware management interface.",
+  "icons": []
+}
