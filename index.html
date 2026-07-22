@@ -2,379 +2,334 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Hero EV VIDA VCI Diagnostic Manager</title>
+<title>DEEPAK DABI VCI SCAN</title>
 
 <style>
 *{
-box-sizing:border-box;
-margin:0;
-padding:0
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
 }
 
 body{
-font-family:Segoe UI,Arial,sans-serif;
-background:#050b14;
-color:#eaf2ff
+    background:#050a12;
+    color:#eaf2ff;
+    min-height:100vh;
 }
 
 header{
-height:70px;
-background:#081421;
-border-bottom:1px solid #1d354d;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 25px
+    height:72px;
+    background:#091522;
+    border-bottom:1px solid #20364d;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
 }
 
 .logo{
-font-size:20px;
-font-weight:800
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:1px;
 }
 
 .logo span{
-color:#ff3045
+    color:#ff3045;
 }
 
 .header-right{
-display:flex;
-align-items:center;
-gap:10px
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
 .status{
-padding:9px 15px;
-border-radius:20px;
-background:#42151c;
-color:#ff7180;
-font-size:13px
+    padding:9px 16px;
+    border-radius:30px;
+    background:#42151c;
+    color:#ff6d7d;
+    font-size:13px;
 }
 
-.status.connected{
-background:#073c2d;
-color:#48e5b4
+.status.online{
+    background:#073b2e;
+    color:#42e0ae;
 }
 
 button{
-border:0;
-padding:11px 17px;
-border-radius:7px;
-cursor:pointer;
-font-weight:700
+    border:1px solid #29445d;
+    background:#102235;
+    color:#eaf2ff;
+    padding:11px 17px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:700;
 }
 
-button:disabled{
-opacity:.5;
-cursor:not-allowed
+button:hover{
+    filter:brightness(1.25);
 }
 
-.btn-primary{
-background:#e52d3d;
-color:white
-}
-
-.btn-green{
-background:#07845f;
-color:white
-}
-
-.btn-dark{
-background:#122235;
-color:#dceaff;
-border:1px solid #28435d
+.primary{
+    background:#e52e43;
+    border:none;
 }
 
 .layout{
-display:grid;
-grid-template-columns:230px 1fr;
-min-height:calc(100vh - 70px)
+    display:grid;
+    grid-template-columns:230px 1fr;
+    min-height:calc(100vh - 72px);
 }
 
 .sidebar{
-background:#07111d;
-border-right:1px solid #193049;
-padding:20px 12px
+    background:#07111c;
+    border-right:1px solid #1c3248;
+    padding:18px 12px;
 }
 
-.sidebar button{
-width:100%;
-text-align:left;
-margin-bottom:5px;
-background:transparent;
-color:#9db1c8
+.nav{
+    width:100%;
+    text-align:left;
+    border:none;
+    background:transparent;
+    margin-bottom:6px;
+    color:#8ea4ba;
 }
 
-.sidebar button:hover,
-.sidebar button.active{
-background:#10263c;
-color:white
+.nav.active,
+.nav:hover{
+    background:#10263c;
+    color:white;
 }
 
 main{
-padding:25px;
-max-width:1600px;
-width:100%;
-margin:auto
+    padding:25px;
+    max-width:1600px;
+    width:100%;
+    margin:auto;
 }
 
 .page{
-display:none
+    display:none;
 }
 
 .page.active{
-display:block
+    display:block;
 }
 
-.page-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
-margin-bottom:20px
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:22px;
 }
 
-.page-header h1{
-font-size:27px
+.topbar h1{
+    font-size:28px;
 }
 
-.page-header p{
-color:#7088a0;
-margin-top:5px
+.topbar p{
+    color:#7890a8;
+    margin-top:5px;
 }
 
 .cards{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
 }
 
 .card{
-background:#091725;
-border:1px solid #1b344c;
-border-radius:12px;
-padding:20px
+    background:#091725;
+    border:1px solid #1b344c;
+    border-radius:12px;
+    padding:20px;
 }
 
 .card small{
-color:#7189a3
+    color:#7189a3;
 }
 
 .card h2{
-margin:10px 0;
-font-size:22px
+    margin-top:10px;
 }
 
-.card p{
-color:#7d94aa;
-font-size:13px
+.green{
+    color:#42e0ae;
+}
+
+.red{
+    color:#ff5b6c;
 }
 
 .panel{
-margin-top:18px;
-background:#091725;
-border:1px solid #1b344c;
-border-radius:12px;
-overflow:hidden
+    margin-top:20px;
+    background:#091725;
+    border:1px solid #1b344c;
+    border-radius:12px;
+    overflow:hidden;
 }
 
 .panel-title{
-padding:15px 18px;
-border-bottom:1px solid #1b344c;
-font-weight:700
+    padding:15px 18px;
+    border-bottom:1px solid #1b344c;
+    font-weight:700;
 }
 
 .panel-body{
-padding:18px
+    padding:18px;
 }
 
 .ecu-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
 }
 
 .ecu{
-background:#07121f;
-border:1px solid #203a53;
-padding:15px;
-border-radius:9px
+    background:#07121f;
+    border:1px solid #203b55;
+    border-radius:9px;
+    padding:17px;
 }
 
-.ecu span{
-display:block;
-margin:8px 0 12px;
-color:#4be2b2;
-font-size:12px
+.ecu-name{
+    font-weight:bold;
+    font-size:17px;
+}
+
+.ecu-status{
+    margin:10px 0;
+    color:#42e0ae;
+    font-size:13px;
 }
 
 .console{
-background:#02070c;
-color:#68e2bb;
-padding:15px;
-min-height:180px;
-font-family:Consolas,monospace;
-white-space:pre-wrap;
-overflow:auto
+    background:#02070c;
+    color:#65dfb7;
+    min-height:180px;
+    padding:15px;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    white-space:pre-wrap;
+    overflow:auto;
 }
 
-.form{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px
-}
-
-label{
-color:#91a8bf;
-font-size:13px
-}
-
-input,
-select{
-width:100%;
-margin-top:7px;
-padding:11px;
-border-radius:7px;
-border:1px solid #29445f;
-background:#07121f;
-color:white
-}
-
-table{
-width:100%;
-border-collapse:collapse
-}
-
-th,
-td{
-padding:12px;
-text-align:left;
-border-bottom:1px solid #1b344c;
-font-size:12px
-}
-
-th{
-color:#7890a8
-}
-
-tr{
-cursor:pointer
-}
-
-tr:hover{
-background:#0d2134
-}
-
-.badge{
-display:inline-block;
-padding:7px 12px;
-border-radius:20px;
-background:#2b1920;
-color:#ff7180
-}
-
-.badge.ok{
-background:#073c2d;
-color:#4be2b2
+.action-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
 }
 
 .progress{
-height:10px;
-background:#132638;
-border-radius:20px;
-overflow:hidden;
-margin:15px 0
+    height:10px;
+    background:#142638;
+    border-radius:20px;
+    margin:20px 0;
+    overflow:hidden;
 }
 
 .progress-bar{
-height:100%;
-width:0%;
-background:#e52d3d;
-transition:.3s
+    width:0%;
+    height:100%;
+    background:#e52e43;
+    transition:.4s;
 }
 
-.actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-.small-text{
-color:#7189a3;
-font-size:12px
+th,td{
+    padding:12px;
+    border-bottom:1px solid #1b344c;
+    text-align:left;
+    font-size:13px;
 }
 
-@media(max-width:1000px){
-
-.cards{
-grid-template-columns:1fr 1fr
+tr:hover{
+    background:#0c2033;
 }
 
-.ecu-grid{
-grid-template-columns:1fr 1fr
+input,select{
+    width:100%;
+    padding:11px;
+    margin-top:7px;
+    background:#07121f;
+    color:white;
+    border:1px solid #29445d;
+    border-radius:7px;
 }
 
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
 }
 
-@media(max-width:700px){
-
-header{
-padding:0 12px
+label{
+    color:#91a8bf;
+    font-size:13px;
 }
 
-.logo{
-font-size:16px
+@media(max-width:900px){
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .cards,
+    .ecu-grid{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
-.layout{
-grid-template-columns:1fr
-}
+@media(max-width:600px){
+    .cards,
+    .ecu-grid,
+    .form-grid{
+        grid-template-columns:1fr;
+    }
 
-.sidebar{
-display:none
-}
+    header{
+        padding:0 12px;
+    }
 
-main{
-padding:15px
-}
+    .logo{
+        font-size:16px;
+    }
 
-.cards,
-.ecu-grid,
-.form{
-grid-template-columns:1fr
-}
-
-.page-header{
-align-items:flex-start;
-flex-direction:column
-}
-
+    main{
+        padding:15px;
+    }
 }
 </style>
 </head>
 
-
 <body>
-
 
 <header>
 
 <div class="logo">
-<span>HERO</span> EV VIDA VCI
+<span>DEEPAK DABI</span> VCI SCAN
 </div>
 
 <div class="header-right">
 
-<div id="bridgeStatus"
-class="status">
-● Bridge Offline
+<div id="bridgeStatus" class="status">
+● BRIDGE OFFLINE
 </div>
 
-<button
-id="connectBridge"
-class="btn-primary">
-Connect VCI Bridge
+<button id="connectBtn" class="primary">
+CONNECT VCI
 </button>
 
 </div>
@@ -382,47 +337,43 @@ Connect VCI Bridge
 </header>
 
 
-
 <div class="layout">
-
 
 <aside class="sidebar">
 
-<button class="active"
-data-page="dashboard">
-Dashboard
+<button class="nav active" data-page="dashboard">
+🏠 Dashboard
 </button>
 
-<button data-page="diagnostics">
-Diagnostics
+<button class="nav" data-page="diagnostics">
+🔍 Full VCI Scan
 </button>
 
-<button data-page="ecu">
-ECU Manager
+<button class="nav" data-page="ecu">
+⚙️ ECU Scan
 </button>
 
-<button data-page="dtc">
-DTC Manager
+<button class="nav" data-page="dtc">
+⚠️ DTC Manager
 </button>
 
-<button data-page="live">
-Live Data
+<button class="nav" data-page="live">
+📊 Live Data
 </button>
 
-<button data-page="firmware">
-Firmware Manager
+<button class="nav" data-page="firmware">
+💾 Firmware Manager
 </button>
 
-<button data-page="flashing">
-Programming
+<button class="nav" data-page="programming">
+🔧 Programming
 </button>
 
-<button data-page="logs">
-Connection Logs
+<button class="nav" data-page="logs">
+📜 Scan Logs
 </button>
 
 </aside>
-
 
 
 <main>
@@ -430,109 +381,104 @@ Connection Logs
 
 <!-- DASHBOARD -->
 
-<section
-id="dashboard"
-class="page active">
+<section id="dashboard" class="page active">
 
-<div class="page-header">
+<div class="topbar">
 
 <div>
-
-<h1>VCI Diagnostic Dashboard</h1>
-
-<p>
-VIDA VCI Local Bridge Interface
-</p>
-
+<h1>DEEPAK DABI VCI SCAN</h1>
+<p>HERO EV Diagnostic & VCI Manager</p>
 </div>
 
-<div class="actions">
-
-<button
-id="identifyVehicle"
-class="btn-dark">
-
-Identify Vehicle
-
+<div class="action-row">
+<button id="identifyBtn">
+IDENTIFY VEHICLE
 </button>
 
-<button
-id="scanVehicle"
-class="btn-primary">
-
-Full Vehicle Scan
-
+<button id="fullScanBtn" class="primary">
+FULL VCI SCAN
 </button>
-
 </div>
 
 </div>
-
 
 
 <div class="cards">
 
 <div class="card">
-
-<small>LOCAL BRIDGE</small>
-
-<h2 id="bridgeCard">
+<small>VCI BRIDGE</small>
+<h2 id="bridgeState" class="red">
 OFFLINE
 </h2>
-
-<p>
-127.0.0.1:8765
-</p>
-
 </div>
 
-
 <div class="card">
-
 <small>VCI DEVICE</small>
-
-<h2 id="vciCard">
+<h2 id="deviceState">
 NOT CONNECTED
 </h2>
-
-<p>
-Hardware interface
-</p>
-
 </div>
 
-
 <div class="card">
-
 <small>VEHICLE</small>
-
-<h2 id="vehicleCard">
+<h2 id="vehicleState">
 UNKNOWN
 </h2>
-
-<p id="vinCard">
-VIN unavailable
-</p>
-
 </div>
-
 
 <div class="card">
-
 <small>ACTIVE DTC</small>
-
-<h2 id="dtcCard">
+<h2 id="dtcCount">
 0
 </h2>
-
-<p>
-Diagnostic trouble codes
-</p>
-
 </div>
 
 </div>
 
+
+<div class="panel">
+
+<div class="panel-title">
+Vehicle Information
+</div>
+
+<div class="panel-body">
+
+<div class="cards">
+
+<div class="card">
+<small>VIN</small>
+<h2 id="vin">
+--
+</h2>
+</div>
+
+<div class="card">
+<small>MODEL</small>
+<h2 id="modelName">
+--
+</h2>
+</div>
+
+<div class="card">
+<small>BATTERY SOC</small>
+<h2 id="socValue">
+--
+</h2>
+</div>
+
+<div class="card">
+<small>VOLTAGE</small>
+<h2 id="voltageValue">
+--
+</h2>
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 
 <div class="panel">
@@ -541,18 +487,14 @@ Diagnostic trouble codes
 System Console
 </div>
 
-<pre
-id="console"
-class="console">
-Hero EV VIDA VCI Diagnostic Manager
+<div class="panel-body">
 
-System initialized.
-
+<pre id="console" class="console">
+DEEPAK DABI VCI SCAN initialized.
 Waiting for Local VCI Bridge...
-
-Bridge:
-http://127.0.0.1:8765
 </pre>
+
+</div>
 
 </div>
 
@@ -562,32 +504,20 @@ http://127.0.0.1:8765
 
 <!-- DIAGNOSTICS -->
 
-<section
-id="diagnostics"
-class="page">
+<section id="diagnostics" class="page">
 
-<div class="page-header">
+<div class="topbar">
 
 <div>
-
-<h1>Vehicle Diagnostics</h1>
-
-<p>
-Perform vehicle ECU scan
-</p>
-
+<h1>Full VCI Scan</h1>
+<p>Scan all supported vehicle ECUs</p>
 </div>
 
-<button
-id="diagnosticScan"
-class="btn-primary">
-
-Start Full Scan
-
+<button id="scanButton" class="primary">
+START FULL SCAN
 </button>
 
 </div>
-
 
 <div class="panel">
 
@@ -597,10 +527,8 @@ Diagnostic Result
 
 <div class="panel-body">
 
-<pre
-id="diagnosticConsole"
-class="console">
-Ready for diagnostic scan.
+<pre id="scanResult" class="console">
+Ready for VCI scan.
 </pre>
 
 </div>
@@ -613,33 +541,22 @@ Ready for diagnostic scan.
 
 <!-- ECU -->
 
-<section
-id="ecu"
-class="page">
+<section id="ecu" class="page">
 
-<div class="page-header">
+<div class="topbar">
 
 <div>
-
 <h1>ECU Manager</h1>
-
-<p>
-Scan individual control modules
-</p>
-
+<p>Individual ECU diagnostics</p>
 </div>
 
 </div>
-
 
 <div class="panel">
 
 <div class="panel-body">
 
-<div
-id="ecuGrid"
-class="ecu-grid">
-</div>
+<div id="ecuGrid" class="ecu-grid"></div>
 
 </div>
 
@@ -651,56 +568,34 @@ class="ecu-grid">
 
 <!-- DTC -->
 
-<section
-id="dtc"
-class="page">
+<section id="dtc" class="page">
 
-<div class="page-header">
+<div class="topbar">
 
 <div>
-
 <h1>DTC Manager</h1>
-
-<p>
-Read and clear diagnostic trouble codes
-</p>
-
+<p>Read and clear diagnostic trouble codes</p>
 </div>
 
-<div class="actions">
+<div class="action-row">
 
-<button
-id="readDtc"
-class="btn-dark">
-
-Read DTC
-
+<button id="readDtcBtn">
+READ DTC
 </button>
 
-<button
-id="clearDtc"
-class="btn-primary">
-
-Clear DTC
-
+<button id="clearDtcBtn" class="primary">
+CLEAR DTC
 </button>
 
 </div>
 
 </div>
-
 
 <div class="panel">
 
-<div class="panel-title">
-DTC Results
-</div>
-
 <div class="panel-body">
 
-<pre
-id="dtcConsole"
-class="console">
+<pre id="dtcResult" class="console">
 No DTC data.
 </pre>
 
@@ -714,76 +609,41 @@ No DTC data.
 
 <!-- LIVE DATA -->
 
-<section
-id="live"
-class="page">
+<section id="live" class="page">
 
-<div class="page-header">
+<div class="topbar">
 
 <div>
-
 <h1>Live Data</h1>
-
-<p>
-Vehicle parameter monitoring
-</p>
-
+<p>Real-time vehicle parameters</p>
 </div>
 
-<button
-id="liveData"
-class="btn-green">
-
-Get Live Data
-
+<button id="liveBtn">
+REFRESH LIVE DATA
 </button>
 
 </div>
 
-
 <div class="cards">
 
 <div class="card">
-
 <small>BATTERY SOC</small>
-
-<h2 id="soc">
---
-</h2>
-
+<h2 id="liveSoc">--</h2>
 </div>
 
-
 <div class="card">
-
 <small>BATTERY VOLTAGE</small>
-
-<h2 id="voltage">
---
-</h2>
-
+<h2 id="liveVoltage">--</h2>
 </div>
 
-
 <div class="card">
-
 <small>MOTOR RPM</small>
-
-<h2 id="rpm">
---
-</h2>
-
+<h2 id="liveRpm">--</h2>
 </div>
 
-
 <div class="card">
-
 <small>VEHICLE SPEED</small>
-
-<h2 id="speed">
---
-</h2>
-
+<h2 id="liveSpeed">--</h2>
 </div>
 
 </div>
@@ -794,36 +654,27 @@ Get Live Data
 
 <!-- FIRMWARE -->
 
-<section
-id="firmware"
-class="page">
+<section id="firmware" class="page">
 
-<div class="page-header">
+<div class="topbar">
 
 <div>
-
 <h1>Firmware Manager</h1>
-
-<p>
-Search compatible firmware database
-</p>
-
+<p>Search firmware metadata</p>
 </div>
 
 </div>
-
 
 <div class="panel">
 
 <div class="panel-body">
 
-<div class="form">
+<div class="form-grid">
 
 <label>
-
 Vehicle Model
 
-<select id="model">
+<select id="firmwareModel">
 
 <option>V1 PRO</option>
 <option>V1 PLUS</option>
@@ -839,10 +690,9 @@ Vehicle Model
 
 
 <label>
+ECU
 
-ECU Module
-
-<select id="ecuSelect">
+<select id="firmwareEcu">
 
 <option>TCU</option>
 <option>VCU</option>
@@ -860,18 +710,13 @@ ECU Module
 
 <br>
 
-<button
-id="searchFirmware"
-class="btn-primary">
-
-Search Firmware
-
+<button id="firmwareSearchBtn" class="primary">
+SEARCH FIRMWARE
 </button>
 
 </div>
 
 </div>
-
 
 
 <div class="panel">
@@ -881,20 +726,16 @@ Search Firmware
 <thead>
 
 <tr>
-
-<th>File</th>
-<th>Module</th>
-<th>Model</th>
+<th>FILE</th>
+<th>MODULE</th>
+<th>MODEL</th>
 <th>ECU</th>
-<th>Build</th>
-
+<th>BUILD</th>
 </tr>
 
 </thead>
 
-<tbody
-id="firmwareTable">
-</tbody>
+<tbody id="firmwareTable"></tbody>
 
 </table>
 
@@ -904,88 +745,52 @@ id="firmwareTable">
 
 
 
-<!-- FLASHING -->
+<!-- PROGRAMMING -->
 
-<section
-id="flashing"
-class="page">
+<section id="programming" class="page">
 
-<div class="page-header">
+<div class="topbar">
 
 <div>
-
-<h1>Programming Workflow</h1>
-
-<p>
-Firmware programming interface
-</p>
-
+<h1>Programming</h1>
+<p>Authorized VCI programming workflow</p>
 </div>
 
 </div>
-
 
 <div class="panel">
 
 <div class="panel-body">
 
-<div class="badge">
-
-⚠ Authorized VCI/SDK required
-
-</div>
-
-<br><br>
-
 <label>
-
 Selected Firmware
 
-<input
-id="flashFile"
-readonly
-placeholder="Select firmware from Firmware Manager">
+<input id="selectedFirmware" readonly>
 
 </label>
 
-
 <div class="progress">
 
-<div
-id="flashProgress"
-class="progress-bar">
-</div>
+<div id="progressBar" class="progress-bar"></div>
 
 </div>
 
+<div class="action-row">
 
-<div class="actions">
-
-<button
-id="verifyFirmware"
-class="btn-dark">
-
-Verify Compatibility
-
+<button id="verifyBtn">
+VERIFY COMPATIBILITY
 </button>
 
-<button
-id="startFlash"
-class="btn-primary">
-
-Start Programming
-
+<button id="programBtn" class="primary">
+START PROGRAMMING
 </button>
 
 </div>
-
 
 <br>
 
-<pre
-id="flashConsole"
-class="console">
-Programming workflow ready.
+<pre id="programResult" class="console">
+Programming system ready.
 </pre>
 
 </div>
@@ -998,39 +803,28 @@ Programming workflow ready.
 
 <!-- LOGS -->
 
-<section
-id="logs"
-class="page">
+<section id="logs" class="page">
 
-<div class="page-header">
+<div class="topbar">
 
 <div>
-
-<h1>Connection Logs</h1>
-
-<p>
-Bridge communication history
-</p>
-
+<h1>Scan Logs</h1>
+<p>VCI communication history</p>
 </div>
 
-<button
-id="clearLogs"
-class="btn-primary">
-
-Clear Logs
-
+<button id="clearLogs">
+CLEAR LOGS
 </button>
 
 </div>
 
-
 <div class="panel">
 
-<pre
-id="logsConsole"
-class="console">
-</pre>
+<div class="panel-body">
+
+<pre id="logsOutput" class="console"></pre>
+
+</div>
 
 </div>
 
@@ -1042,100 +836,55 @@ class="console">
 </div>
 
 
-
 <script>
 
-
-/* =========================================
-   CONFIGURATION
-========================================= */
-
-const BRIDGE_URL =
+const BRIDGE =
 "http://127.0.0.1:8765";
 
-const WS_URL =
-"ws://127.0.0.1:8765/ws";
+let vciConnected = false;
 
 
-let bridgeConnected=false;
-
-let socket=null;
-
+const $ = id =>
+document.getElementById(id);
 
 
-/* =========================================
-   ELEMENTS
-========================================= */
-
-const consoleBox =
-document.getElementById("console");
-
-const logsBox =
-document.getElementById("logsConsole");
-
-
-
-/* =========================================
-   LOGGING
-========================================= */
-
-function log(message){
+function addLog(message){
 
 const time =
-new Date()
-.toLocaleTimeString();
+new Date().toLocaleTimeString();
 
-const line =
-"["+
-time+
-"] "+
-message;
+const text =
+"[" + time + "] " + message;
 
-consoleBox.textContent +=
-"\n"+
-line;
+$("console").textContent +=
+"\\n" + text;
 
-logsBox.textContent +=
-"\n"+
-line;
-
-consoleBox.scrollTop =
-consoleBox.scrollHeight;
+$("logsOutput").textContent +=
+"\\n" + text;
 
 }
 
 
-
-/* =========================================
-   BRIDGE API
-========================================= */
-
-async function bridgeRequest(
-endpoint,
-options={}
-){
+async function api(endpoint, options = {}){
 
 const response =
 await fetch(
-BRIDGE_URL+
-endpoint,
+BRIDGE + endpoint,
 {
 ...options,
 
 headers:{
 "Content-Type":
 "application/json",
-
-...(options.headers||{})
+...(options.headers || {})
 }
 
-}
-);
+});
 
 if(!response.ok){
 
 throw new Error(
-"HTTP "+
+"HTTP " +
 response.status
 );
 
@@ -1147,121 +896,65 @@ return response.json();
 
 
 
-/* =========================================
-   CONNECT BRIDGE
-========================================= */
-
-async function connectBridge(){
+async function connectVCI(){
 
 try{
 
-log(
-"Checking Local VCI Bridge..."
-);
-
 const status =
-await bridgeRequest(
+await api(
 "/api/status"
 );
 
-log(
-"Bridge response received."
-);
-
-
-const connection =
-await bridgeRequest(
+const result =
+await api(
 "/api/connect",
 {
 method:"POST"
 }
 );
 
+vciConnected = true;
 
-bridgeConnected=true;
+$("bridgeStatus")
+.className =
+"status online";
 
+$("bridgeStatus")
+.textContent =
+"● VCI CONNECTED";
 
-document
-.getElementById(
-"bridgeStatus"
-)
-.className=
-"status connected";
-
-
-document
-.getElementById(
-"bridgeStatus"
-)
-.textContent=
-"● VCI Connected";
-
-
-document
-.getElementById(
-"bridgeCard"
-)
-.textContent=
+$("bridgeState")
+.textContent =
 "ONLINE";
 
+$("bridgeState")
+.className =
+"green";
 
-document
-.getElementById(
-"vciCard"
-)
-.textContent=
-connection.device ||
+$("deviceState")
+textContent =
+result.device ||
 status.device ||
-"VCI READY";
+"VCI DEVICE";
 
-
-log(
-"VCI connection successful."
+addLog(
+"VCI Bridge connected successfully."
 );
 
+}
 
-connectWebSocket();
+catch(error){
 
+vciConnected = false;
 
-}catch(error){
-
-
-bridgeConnected=false;
-
-
-document
-.getElementById(
-"bridgeStatus"
-)
-.className=
-"status";
-
-
-document
-.getElementById(
-"bridgeStatus"
-)
-.textContent=
-"● Bridge Offline";
-
-
-document
-.getElementById(
-"bridgeCard"
-)
-.textContent=
-"OFFLINE";
-
-
-log(
-"Bridge connection failed: "+
+addLog(
+"VCI connection failed: " +
 error.message
 );
 
-
 alert(
-"Windows Local VCI Bridge is not running.\n\n"+
-"Start the Bridge application and try again."
+"VCI Bridge not running.\\n\\n" +
+"Start the Windows Local VCI Bridge first."
 );
 
 }
@@ -1269,243 +962,54 @@ alert(
 }
 
 
-
-/* =========================================
-   WEBSOCKET
-========================================= */
-
-function connectWebSocket(){
-
-try{
-
-socket =
-new WebSocket(
-WS_URL
-);
-
-
-socket.onopen=()=>{
-
-log(
-"WebSocket connected."
-);
-
-};
-
-
-socket.onmessage=
-event=>{
-
-try{
-
-const data =
-JSON.parse(
-event.data
-);
-
-handleBridgeEvent(
-data
-);
-
-}catch{
-
-log(
-"Bridge: "+
-event.data
-);
-
-}
-
-};
-
-
-socket.onclose=()=>{
-
-log(
-"WebSocket disconnected."
-);
-
-};
-
-
-socket.onerror=()=>{
-
-log(
-"WebSocket connection error."
-);
-
-};
-
-}catch(error){
-
-log(
-"WebSocket unavailable."
-);
-
-}
-
-}
-
-
-
-/* =========================================
-   BRIDGE EVENTS
-========================================= */
-
-function handleBridgeEvent(data){
-
-
-if(data.type==="vehicle"){
-
-document
-.getElementById(
-"vehicleCard"
-)
-.textContent=
-data.model ||
-"UNKNOWN";
-
-
-document
-.getElementById(
-"vinCard"
-)
-.textContent=
-data.vin ||
-"VIN unavailable";
-
-}
-
-
-if(data.type==="dtc"){
-
-document
-.getElementById(
-"dtcCard"
-)
-.textContent=
-data.count ||
-0;
-
-
-document
-.getElementById(
-"dtcConsole"
-)
-.textContent=
-JSON.stringify(
-data,
-null,
-2
-);
-
-}
-
-
-if(data.type==="liveData"){
-
-document
-.getElementById(
-"soc"
-)
-.textContent=
-data.soc !== undefined
-?
-data.soc+"%"
-:
-"--";
-
-
-document
-.getElementById(
-"voltage"
-)
-.textContent=
-data.voltage !== undefined
-?
-data.voltage+" V"
-:
-"--";
-
-
-document
-.getElementById(
-"rpm"
-)
-.textContent=
-data.rpm !== undefined
-?
-data.rpm
-:
-"--";
-
-
-document
-.getElementById(
-"speed"
-)
-.textContent=
-data.speed !== undefined
-?
-data.speed+" km/h"
-:
-"--";
-
-}
-
-}
-
-
-
-/* =========================================
-   VEHICLE IDENTIFICATION
-========================================= */
 
 async function identifyVehicle(){
 
-if(!bridgeConnected){
+if(!vciConnected){
 
 alert(
-"Connect VCI Bridge first."
+"Please connect VCI first."
 );
 
 return;
 
 }
 
-
 try{
 
-log(
-"Identifying vehicle..."
-);
-
-
 const data =
-await bridgeRequest(
+await api(
 "/api/vehicle/identify",
 {
 method:"POST"
 }
 );
 
+$("vehicleState")
+.textContent =
+data.model ||
+"UNKNOWN";
 
-handleBridgeEvent({
-type:"vehicle",
-...data
-});
+$("modelName")
+.textContent =
+data.model ||
+"--";
 
+$("vin")
+.textContent =
+data.vin ||
+"--";
 
-log(
-"Vehicle identification completed."
+addLog(
+"Vehicle identified."
 );
 
+}
 
-}catch(error){
+catch(error){
 
-log(
-"Vehicle identification failed: "+
-error.message
+addLog(
+"Vehicle identification failed."
 );
 
 }
@@ -1514,66 +1018,58 @@ error.message
 
 
 
-/* =========================================
-   FULL SCAN
-========================================= */
+async function fullScan(){
 
-async function scanVehicle(){
-
-if(!bridgeConnected){
+if(!vciConnected){
 
 alert(
-"Connect VCI Bridge first."
+"Please connect VCI first."
 );
 
 return;
 
 }
 
+$("scanResult")
+.textContent =
+"Starting full VCI scan...";
 
-const output =
-document.getElementById(
-"diagnosticConsole"
+addLog(
+"Full VCI scan started."
 );
-
-
-output.textContent =
-"Starting full ECU scan...\n";
-
 
 try{
 
 const data =
-await bridgeRequest(
+await api(
 "/api/diagnostics/scan",
 {
 method:"POST"
 }
 );
 
-
-output.textContent +=
+$("scanResult")
+.textContent =
 JSON.stringify(
 data,
 null,
 2
 );
 
-
-log(
-"Full vehicle scan completed."
+addLog(
+"Full VCI scan completed."
 );
 
+}
 
-}catch(error){
+catch(error){
 
-output.textContent +=
-"\nScan failed: "+
+$("scanResult")
+.textContent =
 error.message;
 
-
-log(
-"Full vehicle scan failed."
+addLog(
+"Full VCI scan failed."
 );
 
 }
@@ -1582,33 +1078,22 @@ log(
 
 
 
-/* =========================================
-   ECU SCAN
-========================================= */
+async function scanECU(ecu){
 
-async function ecuScan(ecu){
-
-if(!bridgeConnected){
+if(!vciConnected){
 
 alert(
-"Connect VCI Bridge first."
+"Please connect VCI first."
 );
 
 return;
 
 }
 
-
-log(
-"Scanning ECU: "+
-ecu
-);
-
-
 try{
 
 const data =
-await bridgeRequest(
+await api(
 "/api/ecu/scan",
 {
 method:"POST",
@@ -1621,8 +1106,9 @@ ecu:ecu
 }
 );
 
-
 alert(
+ecu +
+" Scan Result:\\n\\n" +
 JSON.stringify(
 data,
 null,
@@ -1630,17 +1116,17 @@ null,
 )
 );
 
-
-log(
-ecu+
-" scan completed."
+addLog(
+ecu +
+" ECU scan completed."
 );
 
+}
 
-}catch(error){
+catch(error){
 
-log(
-ecu+
+addLog(
+ecu +
 " scan failed."
 );
 
@@ -1650,40 +1136,46 @@ ecu+
 
 
 
-/* =========================================
-   DTC
-========================================= */
+async function readDTC(){
 
-async function readDtc(){
-
-if(!bridgeConnected){
+if(!vciConnected){
 
 alert(
-"Connect VCI Bridge first."
+"Please connect VCI first."
 );
 
 return;
 
 }
 
-
 try{
 
 const data =
-await bridgeRequest(
+await api(
 "/api/dtc/read"
 );
 
+$("dtcCount")
+.textContent =
+data.count || 0;
 
-handleBridgeEvent({
-type:"dtc",
-...data
-});
+$("dtcResult")
+.textContent =
+JSON.stringify(
+data,
+null,
+2
+);
 
+addLog(
+"DTC read completed."
+);
 
-}catch(error){
+}
 
-log(
+catch(error){
+
+addLog(
 "DTC read failed."
 );
 
@@ -1693,57 +1185,53 @@ log(
 
 
 
-async function clearDtc(){
+async function clearDTC(){
 
-if(!bridgeConnected){
+if(!vciConnected){
 
 alert(
-"Connect VCI Bridge first."
+"Please connect VCI first."
 );
 
 return;
 
 }
 
-
-if(
-!confirm(
+if(!confirm(
 "Are you sure you want to clear DTC?"
-)
-)return;
-
+)) return;
 
 try{
 
 const data =
-await bridgeRequest(
+await api(
 "/api/dtc/clear",
 {
 method:"POST"
 }
 );
 
-
-document
-.getElementById(
-"dtcConsole"
-)
-.textContent=
+$("dtcResult")
+.textContent =
 JSON.stringify(
 data,
 null,
 2
 );
 
+$("dtcCount")
+.textContent =
+"0";
 
-log(
-"DTC clear request completed."
+addLog(
+"DTC clear command sent."
 );
 
+}
 
-}catch(error){
+catch(error){
 
-log(
+addLog(
 "DTC clear failed."
 );
 
@@ -1753,40 +1241,63 @@ log(
 
 
 
-/* =========================================
-   LIVE DATA
-========================================= */
-
 async function getLiveData(){
 
-if(!bridgeConnected){
+if(!vciConnected){
 
 alert(
-"Connect VCI Bridge first."
+"Please connect VCI first."
 );
 
 return;
 
 }
 
-
 try{
 
 const data =
-await bridgeRequest(
+await api(
 "/api/live-data"
 );
 
+$("liveSoc")
+.textContent =
+(data.soc || "--") +
+"%";
 
-handleBridgeEvent({
-type:"liveData",
-...data
-});
+$("liveVoltage")
+.textContent =
+(data.voltage || "--") +
+" V";
 
+$("liveRpm")
+.textContent =
+data.rpm || "--";
 
-}catch(error){
+$("liveSpeed")
+.textContent =
+(data.speed || "--") +
+" km/h";
 
-log(
+$("socValue")
+.textContent =
+(data.soc || "--") +
+"%";
+
+$("voltageValue")
+.textContent =
+(data.voltage || "--") +
+" V";
+
+addLog(
+"Live data refreshed."
+);
+
+}
+
+catch(error){
+
+addLog(
 "Live data request failed."
 );
 
@@ -1796,27 +1307,7 @@ log(
 
 
 
-/* =========================================
-   FIRMWARE SEARCH
-========================================= */
-
-async function firmwareSearch(){
-
-const model =
-document
-.getElementById(
-"model"
-)
-.value;
-
-
-const ecu =
-document
-.getElementById(
-"ecuSelect"
-)
-.value;
-
+async function searchFirmware(){
 
 try{
 
@@ -1825,92 +1316,80 @@ await fetch(
 "data/firmware-database.json"
 );
 
-
-if(!response.ok){
-
-throw new Error(
-"Firmware database not found."
-);
-
-}
-
-
 const database =
 await response.json();
 
+const model =
+$("firmwareModel").value;
+
+const ecu =
+$("firmwareEcu").value;
+
+const table =
+$("firmwareTable");
+
+table.innerHTML = "";
 
 const results =
 database.filter(
-item=>
-item.model===model &&
-item.ecu===ecu
+item =>
+item.model === model &&
+item.ecu === ecu
 );
-
-
-const table =
-document
-.getElementById(
-"firmwareTable"
-);
-
-
-table.innerHTML="";
-
 
 results.forEach(
-item=>{
-
+item => {
 
 const row =
-document
-.createElement(
+document.createElement(
 "tr"
 );
 
+row.innerHTML =
 
-row.innerHTML=`
+"<td>" +
+item.file +
+"</td>" +
 
-<td>
-${item.file}
-</td>
+"<td>" +
+item.module +
+"</td>" +
 
-<td>
-${item.module}
-</td>
+"<td>" +
+item.model +
+"</td>" +
 
-<td>
-${item.model}
-</td>
+"<td>" +
+item.ecu +
+"</td>" +
 
-<td>
-${item.ecu}
-</td>
+"<td>" +
+item.build +
+"</td>";
 
-<td>
-${item.build}
-</td>
+row.onclick = () => {
 
-`;
-
-
-row.onclick=()=>{
-
-document
-.getElementById(
-"flashFile"
-)
-.value=
+$("selectedFirmware")
+.value =
 item.file;
 
-
 document
-.getElementById(
-"flashing"
+.querySelectorAll(
+".page"
 )
-.scrollIntoView();
+.forEach(
+p =>
+p.classList.remove(
+"active"
+)
+);
+
+$("programming")
+.classList.add(
+"active"
+);
 
 };
-
 
 table.appendChild(
 row
@@ -1918,22 +1397,17 @@ row
 
 });
 
-
-log(
-results.length+
+addLog(
+results.length +
 " firmware records found."
 );
 
+}
 
-}catch(error){
-
-log(
-"Firmware database error: "+
-error.message
-);
+catch(error){
 
 alert(
-"data/firmware-database.json not found."
+"Firmware database not found."
 );
 
 }
@@ -1941,20 +1415,11 @@ alert(
 }
 
 
-
-/* =========================================
-   FIRMWARE VERIFY
-========================================= */
 
 async function verifyFirmware(){
 
 const file =
-document
-.getElementById(
-"flashFile"
-)
-.value;
-
+$("selectedFirmware").value;
 
 if(!file){
 
@@ -1966,11 +1431,10 @@ return;
 
 }
 
-
 try{
 
 const data =
-await bridgeRequest(
+await api(
 "/api/firmware/verify",
 {
 method:"POST",
@@ -1983,27 +1447,20 @@ file:file
 }
 );
 
-
-document
-.getElementById(
-"flashConsole"
-)
-.textContent=
+$("programResult")
+.textContent =
 JSON.stringify(
 data,
 null,
 2
 );
 
+}
 
-}catch(error){
+catch(error){
 
-document
-.getElementById(
-"flashConsole"
-)
-.textContent=
-"Verification failed:\n"+
+$("programResult")
+.textContent =
 error.message;
 
 }
@@ -2012,30 +1469,20 @@ error.message;
 
 
 
-/* =========================================
-   PROGRAMMING
-========================================= */
+async function programFirmware(){
 
-async function startFlash(){
-
-if(!bridgeConnected){
+if(!vciConnected){
 
 alert(
-"Connect VCI Bridge first."
+"Please connect VCI first."
 );
 
 return;
 
 }
 
-
 const file =
-document
-.getElementById(
-"flashFile"
-)
-.value;
-
+$("selectedFirmware").value;
 
 if(!file){
 
@@ -2047,40 +1494,18 @@ return;
 
 }
 
-
-if(
-!confirm(
+if(!confirm(
 "Start authorized programming workflow?"
-)
-)return;
-
-
-const progress =
-document
-.getElementById(
-"flashProgress"
-);
-
-
-const output =
-document
-.getElementById(
-"flashConsole"
-);
-
-
-progress.style.width=
-"10%";
-
-
-output.textContent=
-"Preparing programming workflow...\n";
-
+)) return;
 
 try{
 
+$("progressBar")
+.style.width =
+"100%";
+
 const data =
-await bridgeRequest(
+await api(
 "/api/firmware/program",
 {
 method:"POST",
@@ -2093,50 +1518,37 @@ file:file
 }
 );
 
-
-progress.style.width=
-"100%";
-
-
-output.textContent +=
+$("programResult")
+.textContent =
 JSON.stringify(
 data,
 null,
 2
 );
 
-
-log(
-"Programming request completed."
+addLog(
+"Programming workflow requested."
 );
 
+}
 
-}catch(error){
+catch(error){
 
-progress.style.width=
+$("progressBar")
+.style.width =
 "0%";
 
-
-output.textContent +=
-"\nProgramming request failed:\n"+
+$("programResult")
+.textContent =
 error.message;
 
-
-log(
-"Programming request failed."
-);
-
 }
 
 }
 
 
 
-/* =========================================
-   ECU LIST
-========================================= */
-
-const ecuList=[
+const ecus = [
 
 "TCU",
 "VCU",
@@ -2149,58 +1561,40 @@ const ecuList=[
 ];
 
 
-const ecuGrid =
-document
-.getElementById(
-"ecuGrid"
-);
+ecus.forEach(
+ecu => {
 
-
-ecuList.forEach(
-ecu=>{
-
-
-const div =
-document
-.createElement(
+const box =
+document.createElement(
 "div"
 );
 
-
-div.className=
+box.className =
 "ecu";
 
+box.innerHTML =
 
-div.innerHTML=`
+'<div class="ecu-name">' +
+ecu +
+'</div>' +
 
-<strong>
-${ecu}
-</strong>
+'<div class="ecu-status">' +
+'● READY' +
+'</div>' +
 
-<span>
-● Ready
-</span>
+'<button>SCAN ECU</button>';
 
-<button
-class="btn-dark"
->
-Scan ECU
-</button>
-
-`;
-
-
-div
+box
 .querySelector(
 "button"
 )
-.onclick=
-()=>ecuScan(ecu);
+.onclick =
+() =>
+scanECU(ecu);
 
-
-ecuGrid
+$("ecuGrid")
 .appendChild(
-div
+box
 );
 
 }
@@ -2208,58 +1602,45 @@ div
 
 
 
-/* =========================================
-   NAVIGATION
-========================================= */
+document
+.querySelectorAll(
+".nav"
+)
+.forEach(
+button => {
+
+button.onclick = () => {
 
 document
 .querySelectorAll(
-".sidebar button"
+".nav"
 )
 .forEach(
-button=>{
-
-
-button.onclick=()=>{
-
-
-document
-.querySelectorAll(
-".sidebar button"
-)
-.forEach(
-b=>
+b =>
 b.classList.remove(
 "active"
 )
 );
 
-
-button
-.classList
-.add(
+button.classList.add(
 "active"
 );
-
 
 document
 .querySelectorAll(
 ".page"
 )
 .forEach(
-page=>
+page =>
 page.classList.remove(
 "active"
 )
 );
 
-
-document
-.getElementById(
+$(
 button.dataset.page
 )
-.classList
-.add(
+.classList.add(
 "active"
 );
 
@@ -2270,114 +1651,63 @@ button.dataset.page
 
 
 
-/* =========================================
-   EVENTS
-========================================= */
+$("connectBtn")
+.onclick =
+connectVCI;
 
-document
-.getElementById(
-"connectBridge"
-)
-.onclick=
-connectBridge;
-
-
-document
-.getElementById(
-"identifyVehicle"
-)
-.onclick=
+$("identifyBtn")
+.onclick =
 identifyVehicle;
 
+$("fullScanBtn")
+.onclick =
+fullScan;
 
-document
-.getElementById(
-"scanVehicle"
-)
-.onclick=
-scanVehicle;
+$("scanButton")
+.onclick =
+fullScan;
 
+$("readDtcBtn")
+.onclick =
+readDTC;
 
-document
-.getElementById(
-"diagnosticScan"
-)
-.onclick=
-scanVehicle;
+$("clearDtcBtn")
+.onclick =
+clearDTC;
 
-
-document
-.getElementById(
-"readDtc"
-)
-.onclick=
-readDtc;
-
-
-document
-.getElementById(
-"clearDtc"
-)
-.onclick=
-clearDtc;
-
-
-document
-.getElementById(
-"liveData"
-)
-.onclick=
+$("liveBtn")
+.onclick =
 getLiveData;
 
+$("firmwareSearchBtn")
+.onclick =
+searchFirmware;
 
-document
-.getElementById(
-"searchFirmware"
-)
-.onclick=
-firmwareSearch;
-
-
-document
-.getElementById(
-"verifyFirmware"
-)
-.onclick=
+$("verifyBtn")
+.onclick =
 verifyFirmware;
 
+$("programBtn")
+.onclick =
+programFirmware;
 
-document
-.getElementById(
-"startFlash"
-)
-.onclick=
-startFlash;
+$("clearLogs")
+.onclick = () => {
 
-
-document
-.getElementById(
-"clearLogs"
-)
-.onclick=
-()=>{
-
-logsBox.textContent="";
+$("logsOutput")
+.textContent = "";
 
 };
 
 
 
-/* =========================================
-   STARTUP
-========================================= */
-
-log(
-"Web application initialized."
+addLog(
+"DEEPAK DABI VCI SCAN initialized."
 );
 
-log(
-"Bridge endpoint: "+
-BRIDGE_URL
+addLog(
+"Bridge endpoint: " +
+BRIDGE
 );
 
 </script>
