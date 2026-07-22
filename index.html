@@ -1,108 +1,1711 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07111f">
-<meta name="description" content="Hero EV VCI Diagnostic Tool Manager">
-<link rel="manifest" href="manifest.json">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Hero EV VCI Diagnostic Manager</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#050b14;
+    color:#eaf2ff;
+}
+
+header{
+    height:70px;
+    background:#081421;
+    border-bottom:1px solid #1d354d;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#ff3045;
+}
+
+.status{
+    padding:9px 15px;
+    border-radius:20px;
+    background:#42151c;
+    color:#ff7180;
+    font-size:13px;
+}
+
+.status.connected{
+    background:#073c2d;
+    color:#48e5b4;
+}
+
+button{
+    border:0;
+    padding:11px 18px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.btn-primary{
+    background:#e52d3d;
+    color:white;
+}
+
+.btn-green{
+    background:#07845f;
+    color:white;
+}
+
+.btn-dark{
+    background:#122235;
+    color:#dceaff;
+    border:1px solid #28435d;
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    min-height:calc(100vh - 70px);
+}
+
+.sidebar{
+    background:#07111d;
+    border-right:1px solid #193049;
+    padding:20px 12px;
+}
+
+.sidebar button{
+    width:100%;
+    text-align:left;
+    margin-bottom:5px;
+    background:transparent;
+    color:#9db1c8;
+}
+
+.sidebar button:hover,
+.sidebar button.active{
+    background:#10263c;
+    color:white;
+}
+
+main{
+    padding:25px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.page-header h1{
+    font-size:27px;
+}
+
+.page-header p{
+    color:#7088a0;
+    margin-top:5px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.card{
+    background:#091725;
+    border:1px solid #1b344c;
+    border-radius:12px;
+    padding:20px;
+}
+
+.card small{
+    color:#7189a3;
+}
+
+.card h2{
+    margin:10px 0;
+}
+
+.panel{
+    margin-top:18px;
+    background:#091725;
+    border:1px solid #1b344c;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.panel-title{
+    padding:15px 18px;
+    border-bottom:1px solid #1b344c;
+    font-weight:700;
+}
+
+.panel-body{
+    padding:18px;
+}
+
+.ecu-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.ecu{
+    background:#07121f;
+    border:1px solid #203a53;
+    padding:15px;
+    border-radius:9px;
+}
+
+.ecu span{
+    display:block;
+    margin-top:8px;
+    color:#4be2b2;
+    font-size:12px;
+}
+
+.console{
+    background:#02070c;
+    color:#68e2bb;
+    padding:15px;
+    min-height:180px;
+    font-family:Consolas,monospace;
+    white-space:pre-wrap;
+}
+
+.form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+input,
+select{
+    width:100%;
+    margin-top:7px;
+    padding:11px;
+    border-radius:7px;
+    border:1px solid #29445f;
+    background:#07121f;
+    color:white;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:12px;
+    text-align:left;
+    border-bottom:1px solid #1b344c;
+    font-size:12px;
+}
+
+th{
+    color:#7890a8;
+}
+
+.bridge-box{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.badge{
+    padding:7px 12px;
+    border-radius:20px;
+    background:#2b1920;
+    color:#ff7180;
+}
+
+.badge.ok{
+    background:#073c2d;
+    color:#4be2b2;
+}
+
+@media(max-width:900px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .ecu-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+</style>
 </head>
+
 <body>
-<header class="topbar">
-  <div class="brand"><span class="brandmark">H</span><span><b>HERO EV VCI</b><small>DIAGNOSTIC TOOL MANAGER V2.0</small></span></div>
-  <div class="top-actions"><span id="vciPill" class="pill offline">● VCI Offline</span><button id="connectBtn" class="btn primary">Connect VCI</button></div>
+
+<header>
+
+<div class="logo">
+    <span>HERO</span> EV VCI
+    <small> Diagnostic Manager</small>
+</div>
+
+<div class="bridge-box">
+
+<div id="bridgeStatus" class="status">
+    ● Bridge Offline
+</div>
+
+<button id="connectBridge" class="btn-primary">
+    Connect Bridge
+</button>
+
+</div>
+
 </header>
+
+
 <div class="layout">
+
+
 <aside class="sidebar">
-  <div class="nav-title">Workspace</div>
-  <button class="nav active" data-page="dashboard">◈ Dashboard</button>
-  <button class="nav" data-page="diagnostics">⌕ Diagnostics</button>
-  <button class="nav" data-page="live">◉ Live Data</button>
-  <button class="nav" data-page="dtc">⚠ DTC Manager</button>
-  <button class="nav" data-page="firmware">↻ Firmware Manager</button>
-  <button class="nav" data-page="flashing">⚡ Flashing Workflow</button>
-  <button class="nav" data-page="vehicle">▣ Vehicle Info</button>
-  <button class="nav" data-page="history">◷ Service History</button>
-  <div class="nav-title">System</div>
-  <button class="nav" data-page="settings">⚙ Settings</button>
+
+<button class="active" data-page="dashboard">
+    Dashboard
+</button>
+
+<button data-page="diagnostics">
+    Diagnostics
+</button>
+
+<button data-page="ecu">
+    ECU Manager
+</button>
+
+<button data-page="dtc">
+    DTC Manager
+</button>
+
+<button data-page="live">
+    Live Data
+</button>
+
+<button data-page="firmware">
+    Firmware Manager
+</button>
+
+<button data-page="flashing">
+    Flashing
+</button>
+
+<button data-page="logs">
+    Connection Logs
+</button>
+
 </aside>
-<main class="main">
+
+
+<main>
+
+
+<!-- DASHBOARD -->
+
 <section id="dashboard" class="page active">
-<div class="page-head"><div><h1>Diagnostic Dashboard</h1><p>VCI connection, vehicle health and firmware overview.</p></div><button class="btn primary" id="fullScanBtn">Start Full Scan</button></div>
+
+<div class="page-header">
+
+<div>
+<h1>Diagnostic Dashboard</h1>
+<p>Hero EV VCI Local Bridge Interface</p>
+</div>
+
+<button id="scanVehicle" class="btn-primary">
+Scan Vehicle
+</button>
+
+</div>
+
+
 <div class="cards">
-<div class="card"><small>VCI STATUS</small><strong id="dashVCI">OFFLINE</strong><span>Browser interface</span></div>
-<div class="card"><small>VEHICLE</small><strong id="dashModel">V1 PRO</strong><span id="dashVin">VIN not identified</span></div>
-<div class="card"><small>FIRMWARE RECORDS</small><strong id="fwCount">0</strong><span>Local database</span></div>
-<div class="card"><small>ACTIVE DTC</small><strong id="dashDtc">0</strong><span>Current session</span></div>
+
+<div class="card">
+<small>BRIDGE</small>
+<h2 id="bridgeCard">OFFLINE</h2>
+<p>Local VCI Bridge</p>
 </div>
-<div class="two-col">
-<div class="panel"><div class="panel-head"><h3>Vehicle Overview</h3><span class="badge ok">READY</span></div><div class="panel-body">
-<div class="vehicle"><div><small>SELECTED MODEL</small><h2 id="vehicleTitle">V1 PRO</h2></div><div class="scooter">🛵</div></div>
-<div class="info-grid">
-<div><small>VIN</small><b id="vehicleVin">Not Connected</b></div><div><small>BATTERY SOC</small><b id="soc">78%</b></div>
-<div><small>ODOMETER</small><b>12,450 km</b></div><div><small>ECU MODULES</small><b>7</b></div>
-</div></div></div>
-<div class="panel"><div class="panel-head"><h3>ECU Health</h3></div><div class="panel-body"><div id="ecuHealth" class="ecu-grid"></div></div></div>
+
+<div class="card">
+<small>VCI DEVICE</small>
+<h2 id="vciCard">NOT CONNECTED</h2>
+<p>Hardware status</p>
 </div>
-<div class="panel"><div class="panel-head"><h3>System Console</h3></div><pre id="console" class="console">System ready. Connect a compatible VCI interface to begin.</pre></div>
+
+<div class="card">
+<small>VEHICLE</small>
+<h2 id="vehicleCard">UNKNOWN</h2>
+<p id="vinCard">VIN unavailable</p>
+</div>
+
+<div class="card">
+<small>ACTIVE DTC</small>
+<h2 id="dtcCard">0</h2>
+<p>Diagnostic faults</p>
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-title">
+System Console
+</div>
+
+<pre id="console" class="console">
+Hero EV VCI Diagnostic Manager started.
+
+Waiting for Windows Local VCI Bridge...
+
+Bridge URL:
+http://127.0.0.1:8765
+</pre>
+
+</div>
+
 </section>
+
+
+
+<!-- DIAGNOSTICS -->
 
 <section id="diagnostics" class="page">
-<div class="page-head"><div><h1>Diagnostics</h1><p>Scan ECU modules and generate a diagnostic session.</p></div><button class="btn primary" id="diagnosticScanBtn">Run Full Diagnostic</button></div>
-<div class="panel"><div class="panel-head"><h3>ECU Modules</h3></div><div id="ecuCards" class="module-grid"></div></div>
-<div class="panel"><div class="panel-head"><h3>Diagnostic Console</h3></div><pre id="diagConsole" class="console">Ready.</pre></div>
+
+<div class="page-header">
+
+<div>
+<h1>Vehicle Diagnostics</h1>
+<p>Scan vehicle ECU modules through Local Bridge</p>
+</div>
+
+<button id="diagnosticScan" class="btn-primary">
+Start Full Scan
+</button>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-title">
+Diagnostic Result
+</div>
+
+<div class="panel-body">
+
+<pre id="diagnosticConsole" class="console">
+Ready for diagnostic scan.
+</pre>
+
+</div>
+
+</div>
+
 </section>
 
-<section id="live" class="page">
-<div class="page-head"><div><h1>Live Data</h1><p>Demo telemetry dashboard. Real data requires a supported VCI protocol.</p></div><button class="btn green" id="liveBtn">Start Live Data</button></div>
-<div id="liveGrid" class="live-grid"></div>
+
+
+<!-- ECU -->
+
+<section id="ecu" class="page">
+
+<div class="page-header">
+
+<div>
+<h1>ECU Manager</h1>
+<p>Vehicle control modules</p>
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-body">
+
+<div class="ecu-grid" id="ecuGrid">
+
+</div>
+
+</div>
+
+</div>
+
 </section>
+
+
+
+<!-- DTC -->
 
 <section id="dtc" class="page">
-<div class="page-head"><div><h1>DTC Manager</h1><p>Read and clear diagnostic trouble codes.</p></div><div><button class="btn" id="readDtcBtn">Read DTC</button> <button class="btn danger" id="clearDtcBtn">Clear DTC</button></div></div>
-<div class="panel"><div class="panel-head"><h3>Stored Codes</h3><span id="dtcBadge" class="badge">0 CODES</span></div><div id="dtcList" class="empty">No diagnostic trouble codes detected.</div></div>
+
+<div class="page-header">
+
+<div>
+<h1>DTC Manager</h1>
+<p>Read and clear diagnostic trouble codes</p>
+</div>
+
+<div>
+
+<button id="readDtc" class="btn-dark">
+Read DTC
+</button>
+
+<button id="clearDtc" class="btn-primary">
+Clear DTC
+</button>
+
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-title">
+DTC Results
+</div>
+
+<div class="panel-body">
+
+<pre id="dtcConsole" class="console">
+No DTC data.
+</pre>
+
+</div>
+
+</div>
+
 </section>
+
+
+
+<!-- LIVE DATA -->
+
+<section id="live" class="page">
+
+<div class="page-header">
+
+<div>
+<h1>Live Data</h1>
+<p>Real-time vehicle parameters</p>
+</div>
+
+<button id="liveData" class="btn-green">
+Start Live Data
+</button>
+
+</div>
+
+
+<div class="cards">
+
+<div class="card">
+<small>BATTERY SOC</small>
+<h2 id="soc">--</h2>
+</div>
+
+<div class="card">
+<small>BATTERY VOLTAGE</small>
+<h2 id="voltage">--</h2>
+</div>
+
+<div class="card">
+<small>MOTOR RPM</small>
+<h2 id="rpm">--</h2>
+</div>
+
+<div class="card">
+<small>VEHICLE SPEED</small>
+<h2 id="speed">--</h2>
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- FIRMWARE -->
 
 <section id="firmware" class="page">
-<div class="page-head"><div><h1>Firmware Manager</h1><p>Search the local firmware compatibility database.</p></div></div>
-<div class="filters"><select id="modelFilter"><option value="">All Models</option></select><select id="ecuFilter"><option value="">All ECU</option></select><input id="fwSearch" placeholder="Search file, module or build ID"></div>
-<div class="panel"><div class="table-wrap"><table><thead><tr><th>File</th><th>Module</th><th>Platform</th><th>Model</th><th>ECU</th><th>Build</th><th></th></tr></thead><tbody id="fwTable"></tbody></table></div></div>
+
+<div class="page-header">
+
+<div>
+<h1>Firmware Manager</h1>
+<p>Compatible firmware database</p>
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-body">
+
+<div class="form">
+
+<label>
+Vehicle Model
+<select id="model">
+<option>V1 PRO</option>
+<option>V1 PLUS</option>
+<option>V2 PRO</option>
+<option>V2 PLUS</option>
+<option>V2 LITE</option>
+<option>VX2 PLUS</option>
+<option>VX2 GO</option>
+</select>
+</label>
+
+
+<label>
+ECU
+<select id="ecu">
+<option>TCU</option>
+<option>VCU</option>
+<option>MCU</option>
+<option>EHL</option>
+<option>BMS-1</option>
+<option>BMS-1B</option>
+<option>BMS-1X</option>
+</select>
+</label>
+
+</div>
+
+<br>
+
+<button id="searchFirmware" class="btn-primary">
+Search Compatible Firmware
+</button>
+
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<table>
+
+<thead>
+
+<tr>
+<th>File</th>
+<th>Module</th>
+<th>Model</th>
+<th>ECU</th>
+<th>Build</th>
+</tr>
+
+</thead>
+
+<tbody id="firmwareTable">
+
+</tbody>
+
+</table>
+
+</div>
+
 </section>
+
+
+
+<!-- FLASHING -->
 
 <section id="flashing" class="page">
-<div class="page-head"><div><h1>Flashing Workflow</h1><p>Compatibility and programming session manager.</p></div></div>
-<div class="notice">Use only authorized firmware and compatible diagnostic hardware. This GitHub Pages project does not implement proprietary ECU flashing protocols.</div>
-<div class="panel"><div class="panel-body">
-<div class="filters"><select id="flashModel"></select><select id="flashEcu"></select></div>
-<label>Selected Firmware</label><input id="flashFile" class="wide" readonly placeholder="Select a compatible firmware from Firmware Manager">
-<div class="steps"><span class="active">1 Connect</span><span>2 Identify</span><span>3 Verify</span><span>4 Program</span><span>5 Verify</span></div>
-<div class="progress"><i id="flashProgress"></i></div>
-<div class="actions"><button class="btn" id="verifyBtn">Verify Compatibility</button><button class="btn primary" id="programBtn">Start Programming Workflow</button></div>
-<pre id="flashConsole" class="console">Programming workflow ready.</pre>
-</div></div>
-</section>
 
-<section id="vehicle" class="page">
-<div class="page-head"><div><h1>Vehicle Information</h1><p>Store the current vehicle identification locally.</p></div><button class="btn primary" id="saveVehicleBtn">Save Vehicle</button></div>
-<div class="panel"><div class="panel-body"><div class="form-grid"><label>VIN<input id="vinInput" placeholder="Enter VIN"></label><label>Model<select id="vehicleModel"></select></label></div></div></div>
-</section>
+<div class="page-header">
 
-<section id="history" class="page">
-<div class="page-head"><div><h1>Service History</h1><p>Local diagnostic and workflow activity.</p></div><button class="btn danger" id="clearHistoryBtn">Clear History</button></div>
-<div class="panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Operation</th><th>Vehicle</th><th>Result</th></tr></thead><tbody id="historyTable"></tbody></table></div></div>
-</section>
-
-<section id="settings" class="page">
-<div class="page-head"><div><h1>Settings</h1><p>Application and VCI interface settings.</p></div></div>
-<div class="panel"><div class="panel-body">
-<div class="form-grid"><label>Connection Mode<select id="connectionMode"><option>Simulation / Demo</option><option>Web Serial</option><option>Web USB</option></select></label><label>Theme<select id="theme"><option>Dark</option><option>System</option></select></label></div>
-<div class="notice">Web Serial/WebUSB support depends on browser, operating system and the specific VCI hardware. A vendor SDK or documented protocol is required for actual vehicle communication.</div>
-</div></div>
-</section>
-</main>
+<div>
+<h1>Firmware Programming Workflow</h1>
+<p>Authorized programming workflow</p>
 </div>
-<script type="module" src="js/app.js"></script>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-body">
+
+<div class="badge">
+⚠ Actual programming requires compatible VCI and authorized SDK/protocol
+</div>
+
+<br><br>
+
+<label>
+Selected Firmware
+<input id="flashFile" readonly>
+</label>
+
+<br>
+
+<button id="verifyFirmware" class="btn-dark">
+Verify Compatibility
+</button>
+
+<button id="startFlash" class="btn-primary">
+Start Programming Workflow
+</button>
+
+<pre id="flashConsole" class="console">
+Programming system ready.
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- LOGS -->
+
+<section id="logs" class="page">
+
+<div class="page-header">
+
+<div>
+<h1>Connection Logs</h1>
+<p>Local Bridge communication history</p>
+</div>
+
+<button id="clearLogs" class="btn-primary">
+Clear Logs
+</button>
+
+</div>
+
+
+<div class="panel">
+
+<pre id="logsConsole" class="console"></pre>
+
+</div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<script>
+
+const BRIDGE_URL =
+"http://127.0.0.1:8765";
+
+const WS_URL =
+"ws://127.0.0.1:8765/ws";
+
+let bridgeConnected=false;
+let socket=null;
+
+const logConsole =
+document.getElementById("console");
+
+const logsConsole =
+document.getElementById("logsConsole");
+
+
+function log(message){
+
+const time =
+new Date().toLocaleTimeString();
+
+const line =
+"[" + time + "] " + message;
+
+logConsole.textContent +=
+"\n" + line;
+
+logsConsole.textContent +=
+"\n" + line;
+
+}
+
+
+
+async function bridgeRequest(
+endpoint,
+options={}
+){
+
+try{
+
+const response =
+await fetch(
+BRIDGE_URL + endpoint,
+{
+...options,
+headers:{
+"Content-Type":
+"application/json",
+...(options.headers||{})
+}
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+"HTTP " + response.status
+);
+
+}
+
+return await response.json();
+
+}catch(error){
+
+log(
+"Bridge API Error: "
++ error.message
+);
+
+throw error;
+
+}
+
+}
+
+
+
+async function connectBridge(){
+
+try{
+
+log(
+"Checking Local VCI Bridge..."
+);
+
+const data =
+await bridgeRequest(
+"/api/status"
+);
+
+bridgeConnected=true;
+
+document
+.getElementById(
+"bridgeStatus"
+)
+.className=
+"status connected";
+
+document
+.getElementById(
+"bridgeStatus"
+)
+.textContent=
+"● Bridge Connected";
+
+document
+.getElementById(
+"bridgeCard"
+)
+.textContent=
+"ONLINE";
+
+document
+.getElementById(
+"vciCard"
+)
+.textContent=
+data.device ||
+"VCI READY";
+
+log(
+"Bridge connected successfully."
+);
+
+connectWebSocket();
+
+}catch(error){
+
+bridgeConnected=false;
+
+document
+.getElementById(
+"bridgeStatus"
+)
+.textContent=
+"● Bridge Offline";
+
+log(
+"Bridge not available."
+);
+
+alert(
+"Windows Local VCI Bridge is not running.\n\nStart Bridge.exe and try again."
+);
+
+}
+
+}
+
+
+
+function connectWebSocket(){
+
+try{
+
+socket =
+new WebSocket(
+WS_URL
+);
+
+socket.onopen=()=>{
+
+log(
+"WebSocket connected."
+);
+
+};
+
+socket.onmessage=
+event=>{
+
+try{
+
+const data =
+JSON.parse(
+event.data
+);
+
+handleBridgeEvent(
+data
+);
+
+}catch{
+
+log(
+"Bridge: "
++ event.data
+);
+
+}
+
+};
+
+socket.onclose=()=>{
+
+log(
+"WebSocket disconnected."
+);
+
+};
+
+}catch(error){
+
+log(
+"WebSocket error."
+);
+
+}
+
+}
+
+
+
+function handleBridgeEvent(data){
+
+if(data.type==="vehicle"){
+
+document
+.getElementById(
+"vehicleCard"
+)
+.textContent=
+data.model ||
+"UNKNOWN";
+
+document
+.getElementById(
+"vinCard"
+)
+.textContent=
+data.vin ||
+"VIN unavailable";
+
+}
+
+if(data.type==="liveData"){
+
+if(data.soc)
+document.getElementById("soc")
+.textContent=
+data.soc + "%";
+
+if(data.voltage)
+document.getElementById("voltage")
+.textContent=
+data.voltage + " V";
+
+if(data.rpm)
+document.getElementById("rpm")
+.textContent=
+data.rpm;
+
+if(data.speed)
+document.getElementById("speed")
+.textContent=
+data.speed + " km/h";
+
+}
+
+if(data.type==="dtc"){
+
+document
+.getElementById(
+"dtcCard"
+)
+.textContent=
+data.count || 0;
+
+document
+.getElementById(
+"dtcConsole"
+)
+.textContent=
+JSON.stringify(
+data,
+null,
+2
+);
+
+}
+
+}
+
+
+
+async function scanVehicle(){
+
+if(!bridgeConnected){
+
+alert(
+"Connect Bridge first."
+);
+
+return;
+
+}
+
+try{
+
+log(
+"Starting vehicle identification..."
+);
+
+const data =
+await bridgeRequest(
+"/api/vehicle/identify",
+{
+method:"POST"
+}
+);
+
+handleBridgeEvent({
+type:"vehicle",
+...data
+});
+
+log(
+"Vehicle identification complete."
+);
+
+}catch(error){
+
+log(
+"Vehicle identification failed."
+);
+
+}
+
+}
+
+
+
+async function diagnosticScan(){
+
+if(!bridgeConnected){
+
+alert(
+"Connect Bridge first."
+);
+
+return;
+
+}
+
+const output =
+document.getElementById(
+"diagnosticConsole"
+);
+
+output.textContent=
+"Starting full ECU scan...\n";
+
+try{
+
+const data =
+await bridgeRequest(
+"/api/diagnostics/scan",
+{
+method:"POST"
+}
+);
+
+output.textContent +=
+JSON.stringify(
+data,
+null,
+2
+);
+
+log(
+"Full diagnostic scan completed."
+);
+
+}catch(error){
+
+output.textContent +=
+"\nScan failed.";
+
+}
+
+}
+
+
+
+async function readDtc(){
+
+if(!bridgeConnected){
+
+alert(
+"Connect Bridge first."
+);
+
+return;
+
+}
+
+try{
+
+const data =
+await bridgeRequest(
+"/api/dtc/read"
+);
+
+handleBridgeEvent({
+type:"dtc",
+...data
+});
+
+}catch(error){
+
+}
+
+}
+
+
+
+async function clearDtc(){
+
+if(!bridgeConnected){
+
+alert(
+"Connect Bridge first."
+);
+
+return;
+
+}
+
+if(
+!confirm(
+"Clear diagnostic trouble codes?"
+)
+)return;
+
+try{
+
+const data =
+await bridgeRequest(
+"/api/dtc/clear",
+{
+method:"POST"
+}
+);
+
+document
+.getElementById(
+"dtcConsole"
+)
+.textContent=
+JSON.stringify(
+data,
+null,
+2
+);
+
+log(
+"DTC clear request sent."
+);
+
+}catch(error){
+
+}
+
+}
+
+
+
+async function ecuScan(ecu){
+
+if(!bridgeConnected){
+
+alert(
+"Connect Bridge first."
+);
+
+return;
+
+}
+
+log(
+"Scanning ECU: "
++ ecu
+);
+
+try{
+
+const data =
+await bridgeRequest(
+"/api/ecu/scan",
+{
+method:"POST",
+body:
+JSON.stringify({
+ecu:ecu
+})
+}
+);
+
+log(
+ecu +
+" response received."
+);
+
+alert(
+JSON.stringify(
+data,
+null,
+2
+)
+);
+
+}catch(error){
+
+}
+
+}
+
+
+
+async function liveData(){
+
+if(!bridgeConnected){
+
+alert(
+"Connect Bridge first."
+);
+
+return;
+
+}
+
+try{
+
+const data =
+await bridgeRequest(
+"/api/live-data"
+);
+
+handleBridgeEvent({
+type:"liveData",
+...data
+});
+
+}catch(error){
+
+}
+
+}
+
+
+
+async function firmwareSearch(){
+
+const model =
+document.getElementById(
+"model"
+).value;
+
+const ecu =
+document.getElementById(
+"ecu"
+).value;
+
+try{
+
+const response =
+await fetch(
+"data/firmware-database.json"
+);
+
+const database =
+await response.json();
+
+const results =
+database.filter(
+item=>
+item.model===model &&
+item.ecu===ecu
+);
+
+const table =
+document.getElementById(
+"firmwareTable"
+);
+
+table.innerHTML="";
+
+results.forEach(
+item=>{
+
+const row =
+document.createElement(
+"tr"
+);
+
+row.innerHTML=`
+
+<td>
+${item.file}
+</td>
+
+<td>
+${item.module}
+</td>
+
+<td>
+${item.model}
+</td>
+
+<td>
+${item.ecu}
+</td>
+
+<td>
+${item.build}
+</td>
+
+`;
+
+row.onclick=()=>{
+
+document
+.getElementById(
+"flashFile"
+)
+.value=
+item.file;
+
+};
+
+table.appendChild(
+row
+);
+
+});
+
+log(
+results.length +
+" compatible firmware records found."
+);
+
+}catch(error){
+
+log(
+"Firmware database error."
+);
+
+}
+
+}
+
+
+
+async function verifyFirmware(){
+
+const file =
+document
+.getElementById(
+"flashFile"
+)
+.value;
+
+if(!file){
+
+alert(
+"Select firmware first."
+);
+
+return;
+
+}
+
+try{
+
+const data =
+await bridgeRequest(
+"/api/firmware/verify",
+{
+method:"POST",
+body:
+JSON.stringify({
+file:file
+})
+}
+);
+
+document
+.getElementById(
+"flashConsole"
+)
+.textContent=
+JSON.stringify(
+data,
+null,
+2
+);
+
+}catch(error){
+
+}
+
+}
+
+
+
+async function startFlash(){
+
+if(!bridgeConnected){
+
+alert(
+"Connect Bridge first."
+);
+
+return;
+
+}
+
+const file =
+document
+.getElementById(
+"flashFile"
+)
+.value;
+
+if(!file){
+
+alert(
+"Select firmware first."
+);
+
+return;
+
+}
+
+if(
+!confirm(
+"Start authorized programming workflow?"
+)
+)return;
+
+try{
+
+const data =
+await bridgeRequest(
+"/api/firmware/program",
+{
+method:"POST",
+body:
+JSON.stringify({
+file:file
+})
+}
+);
+
+document
+.getElementById(
+"flashConsole"
+)
+.textContent=
+JSON.stringify(
+data,
+null,
+2
+);
+
+}catch(error){
+
+}
+
+}
+
+
+
+document
+.getElementById(
+"connectBridge"
+)
+.onclick=
+connectBridge;
+
+document
+.getElementById(
+"scanVehicle"
+)
+.onclick=
+scanVehicle;
+
+document
+.getElementById(
+"diagnosticScan"
+)
+.onclick=
+diagnosticScan;
+
+document
+.getElementById(
+"readDtc"
+)
+.onclick=
+readDtc;
+
+document
+.getElementById(
+"clearDtc"
+)
+.onclick=
+clearDtc;
+
+document
+.getElementById(
+"liveData"
+)
+.onclick=
+liveData;
+
+document
+.getElementById(
+"searchFirmware"
+)
+.onclick=
+firmwareSearch;
+
+document
+.getElementById(
+"verifyFirmware"
+)
+.onclick=
+verifyFirmware;
+
+document
+.getElementById(
+"startFlash"
+)
+.onclick=
+startFlash;
+
+document
+.getElementById(
+"clearLogs"
+)
+.onclick=
+()=>{
+
+logsConsole.textContent="";
+
+};
+
+
+
+document
+.querySelectorAll(
+".sidebar button"
+)
+.forEach(
+button=>{
+
+button.onclick=()=>{
+
+document
+.querySelectorAll(
+".sidebar button"
+)
+.forEach(
+b=>
+b.classList.remove(
+"active"
+)
+);
+
+button.classList.add(
+"active"
+);
+
+document
+.querySelectorAll(
+".page"
+)
+.forEach(
+page=>
+page.classList.remove(
+"active"
+)
+);
+
+document
+.getElementById(
+button.dataset.page
+)
+.classList.add(
+"active"
+);
+
+};
+
+}
+);
+
+
+
+const ecuList=[
+"TCU",
+"VCU",
+"MCU",
+"EHL",
+"BMS-1",
+"BMS-1B",
+"BMS-1X"
+];
+
+const ecuGrid =
+document.getElementById(
+"ecuGrid"
+);
+
+ecuList.forEach(
+ecu=>{
+
+const div =
+document.createElement(
+"div"
+);
+
+div.className="ecu";
+
+div.innerHTML=`
+
+<strong>
+${ecu}
+</strong>
+
+<span>
+● Ready for scan
+</span>
+
+<br>
+
+<button
+class="btn-dark"
+onclick=
+"ecuScan('${ecu}')"
+>
+Scan ECU
+</button>
+
+`;
+
+ecuGrid.appendChild(
+div
+);
+
+}
+);
+
+
+log(
+"Web application initialized."
+);
+
+log(
+"Bridge endpoint: "
++ BRIDGE_URL
+);
+
+</script>
+
 </body>
 </html>
