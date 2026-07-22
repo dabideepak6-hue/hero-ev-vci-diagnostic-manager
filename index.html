@@ -2,26 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>DEEPAK DABI VCI SCAN</title>
 
 <style>
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
     font-family:Segoe UI,Arial,sans-serif;
 }
 
 body{
     background:#050a12;
-    color:#eaf2ff;
+    color:#edf5ff;
     min-height:100vh;
 }
 
 header{
-    height:72px;
+    height:70px;
     background:#091522;
     border-bottom:1px solid #20364d;
     display:flex;
@@ -31,40 +31,39 @@ header{
 }
 
 .logo{
-    font-size:22px;
+    font-size:21px;
     font-weight:800;
-    letter-spacing:1px;
 }
 
 .logo span{
     color:#ff3045;
 }
 
-.header-right{
+.headerRight{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:10px;
 }
 
 .status{
-    padding:9px 16px;
+    padding:9px 15px;
     border-radius:30px;
-    background:#42151c;
-    color:#ff6d7d;
+    background:#45151d;
+    color:#ff7080;
     font-size:13px;
 }
 
 .status.online{
-    background:#073b2e;
-    color:#42e0ae;
+    background:#073c30;
+    color:#43e0af;
 }
 
 button{
-    border:1px solid #29445d;
-    background:#102235;
-    color:#eaf2ff;
     padding:11px 17px;
+    border:1px solid #29445d;
     border-radius:7px;
+    background:#102235;
+    color:white;
     cursor:pointer;
     font-weight:700;
 }
@@ -74,34 +73,35 @@ button:hover{
 }
 
 .primary{
-    background:#e52e43;
+    background:#e62f44;
     border:none;
 }
 
 .layout{
     display:grid;
     grid-template-columns:230px 1fr;
-    min-height:calc(100vh - 72px);
+    min-height:calc(100vh - 70px);
 }
 
 .sidebar{
     background:#07111c;
-    border-right:1px solid #1c3248;
-    padding:18px 12px;
+    border-right:1px solid #1d344a;
+    padding:15px 10px;
 }
 
 .nav{
+    display:block;
     width:100%;
     text-align:left;
-    border:none;
     background:transparent;
-    margin-bottom:6px;
-    color:#8ea4ba;
+    border:none;
+    color:#8da3b9;
+    margin-bottom:5px;
 }
 
-.nav.active,
-.nav:hover{
-    background:#10263c;
+.nav:hover,
+.nav.active{
+    background:#10263b;
     color:white;
 }
 
@@ -125,11 +125,11 @@ main{
     justify-content:space-between;
     align-items:center;
     gap:20px;
-    margin-bottom:22px;
+    margin-bottom:20px;
 }
 
 .topbar h1{
-    font-size:28px;
+    font-size:27px;
 }
 
 .topbar p{
@@ -155,7 +155,7 @@ main{
 }
 
 .card h2{
-    margin-top:10px;
+    margin-top:9px;
 }
 
 .green{
@@ -167,24 +167,42 @@ main{
 }
 
 .panel{
-    margin-top:20px;
     background:#091725;
     border:1px solid #1b344c;
     border-radius:12px;
+    margin-top:20px;
     overflow:hidden;
 }
 
-.panel-title{
+.panelTitle{
     padding:15px 18px;
     border-bottom:1px solid #1b344c;
     font-weight:700;
 }
 
-.panel-body{
+.panelBody{
     padding:18px;
 }
 
-.ecu-grid{
+.actionRow{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.console{
+    background:#02070c;
+    color:#65dfb7;
+    min-height:180px;
+    padding:15px;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    white-space:pre-wrap;
+    overflow:auto;
+    border-radius:7px;
+}
+
+.ecuGrid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:12px;
@@ -197,47 +215,32 @@ main{
     padding:17px;
 }
 
-.ecu-name{
-    font-weight:bold;
-    font-size:17px;
-}
-
-.ecu-status{
-    margin:10px 0;
+.ecuStatus{
     color:#42e0ae;
+    margin:10px 0;
     font-size:13px;
 }
 
-.console{
-    background:#02070c;
-    color:#65dfb7;
-    min-height:180px;
-    padding:15px;
-    font-family:Consolas,monospace;
-    font-size:12px;
-    white-space:pre-wrap;
-    overflow:auto;
+.formGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
 }
 
-.action-row{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
+input,
+select{
+    width:100%;
+    padding:11px;
+    margin-top:7px;
+    background:#07121f;
+    color:white;
+    border:1px solid #29445d;
+    border-radius:7px;
 }
 
-.progress{
-    height:10px;
-    background:#142638;
-    border-radius:20px;
-    margin:20px 0;
-    overflow:hidden;
-}
-
-.progress-bar{
-    width:0%;
-    height:100%;
-    background:#e52e43;
-    transition:.4s;
+label{
+    color:#91a8bf;
+    font-size:13px;
 }
 
 table{
@@ -245,7 +248,8 @@ table{
     border-collapse:collapse;
 }
 
-th,td{
+th,
+td{
     padding:12px;
     border-bottom:1px solid #1b344c;
     text-align:left;
@@ -256,63 +260,98 @@ tr:hover{
     background:#0c2033;
 }
 
-input,select{
-    width:100%;
-    padding:11px;
-    margin-top:7px;
-    background:#07121f;
-    color:white;
-    border:1px solid #29445d;
-    border-radius:7px;
+.progress{
+    height:9px;
+    background:#142638;
+    border-radius:20px;
+    overflow:hidden;
+    margin:20px 0;
 }
 
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+.progressBar{
+    height:100%;
+    width:0%;
+    background:#e52e43;
+    transition:.4s;
 }
 
-label{
-    color:#91a8bf;
-    font-size:13px;
+/* BRIDGE ERROR BOX */
+
+.bridgeError{
+    display:none;
+    background:#251018;
+    border:1px solid #7b2938;
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.bridgeError.show{
+    display:block;
+}
+
+.bridgeError h3{
+    color:#ff6678;
+    margin-bottom:8px;
+}
+
+.bridgeError p{
+    color:#d5aeb4;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.bridgeUrl{
+    display:inline-block;
+    margin:10px 0;
+    padding:8px 12px;
+    background:#080d14;
+    border-radius:5px;
+    color:#64e0b5;
+    font-family:monospace;
 }
 
 @media(max-width:900px){
-    .layout{
-        grid-template-columns:1fr;
-    }
 
-    .sidebar{
-        display:none;
-    }
+.layout{
+    grid-template-columns:1fr;
+}
 
-    .cards,
-    .ecu-grid{
-        grid-template-columns:1fr 1fr;
-    }
+.sidebar{
+    display:none;
+}
+
+.cards,
+.ecuGrid{
+    grid-template-columns:1fr 1fr;
+}
+
 }
 
 @media(max-width:600px){
-    .cards,
-    .ecu-grid,
-    .form-grid{
-        grid-template-columns:1fr;
-    }
 
-    header{
-        padding:0 12px;
-    }
+.cards,
+.ecuGrid,
+.formGrid{
+    grid-template-columns:1fr;
+}
 
-    .logo{
-        font-size:16px;
-    }
+header{
+    padding:0 12px;
+}
 
-    main{
-        padding:15px;
-    }
+.logo{
+    font-size:16px;
+}
+
+main{
+    padding:15px;
+}
+
 }
 </style>
 </head>
+
 
 <body>
 
@@ -322,7 +361,7 @@ label{
 <span>DEEPAK DABI</span> VCI SCAN
 </div>
 
-<div class="header-right">
+<div class="headerRight">
 
 <div id="bridgeStatus" class="status">
 ● BRIDGE OFFLINE
@@ -338,6 +377,7 @@ CONNECT VCI
 
 
 <div class="layout">
+
 
 <aside class="sidebar">
 
@@ -370,7 +410,7 @@ CONNECT VCI
 </button>
 
 <button class="nav" data-page="logs">
-📜 Scan Logs
+📜 Logs
 </button>
 
 </aside>
@@ -383,14 +423,57 @@ CONNECT VCI
 
 <section id="dashboard" class="page active">
 
+<div id="bridgeError" class="bridgeError">
+
+<h3>⚠️ VCI Bridge Not Running</h3>
+
+<p>
+DEEPAK DABI VCI SCAN browser application
+Local VCI Bridge से connect नहीं कर पा रहा है।
+</p>
+
+<div class="bridgeUrl">
+http://127.0.0.1:8765
+</div>
+
+<p>
+Windows में
+<strong>START-VICI-BRIDGE.bat</strong>
+चलाएं और इस window को बंद न करें।
+फिर नीचे Retry दबाएं।
+</p>
+
+<br>
+
+<div class="actionRow">
+
+<button id="retryBtn">
+RETRY CONNECTION
+</button>
+
+<button id="testBtn">
+TEST BRIDGE
+</button>
+
+</div>
+
+</div>
+
+
 <div class="topbar">
 
 <div>
+
 <h1>DEEPAK DABI VCI SCAN</h1>
-<p>HERO EV Diagnostic & VCI Manager</p>
+
+<p>
+HERO EV Diagnostic & VCI Manager
+</p>
+
 </div>
 
-<div class="action-row">
+<div class="actionRow">
+
 <button id="identifyBtn">
 IDENTIFY VEHICLE
 </button>
@@ -398,6 +481,7 @@ IDENTIFY VEHICLE
 <button id="fullScanBtn" class="primary">
 FULL VCI SCAN
 </button>
+
 </div>
 
 </div>
@@ -406,31 +490,46 @@ FULL VCI SCAN
 <div class="cards">
 
 <div class="card">
-<small>VCI BRIDGE</small>
+
+<small>BRIDGE</small>
+
 <h2 id="bridgeState" class="red">
 OFFLINE
 </h2>
+
 </div>
 
+
 <div class="card">
+
 <small>VCI DEVICE</small>
+
 <h2 id="deviceState">
 NOT CONNECTED
 </h2>
+
 </div>
 
+
 <div class="card">
+
 <small>VEHICLE</small>
+
 <h2 id="vehicleState">
 UNKNOWN
 </h2>
+
 </div>
 
+
 <div class="card">
+
 <small>ACTIVE DTC</small>
+
 <h2 id="dtcCount">
 0
 </h2>
+
 </div>
 
 </div>
@@ -438,40 +537,32 @@ UNKNOWN
 
 <div class="panel">
 
-<div class="panel-title">
+<div class="panelTitle">
 Vehicle Information
 </div>
 
-<div class="panel-body">
+<div class="panelBody">
 
 <div class="cards">
 
 <div class="card">
 <small>VIN</small>
-<h2 id="vin">
---
-</h2>
+<h2 id="vin">--</h2>
 </div>
 
 <div class="card">
 <small>MODEL</small>
-<h2 id="modelName">
---
-</h2>
+<h2 id="modelName">--</h2>
 </div>
 
 <div class="card">
 <small>BATTERY SOC</small>
-<h2 id="socValue">
---
-</h2>
+<h2 id="socValue">--</h2>
 </div>
 
 <div class="card">
 <small>VOLTAGE</small>
-<h2 id="voltageValue">
---
-</h2>
+<h2 id="voltageValue">--</h2>
 </div>
 
 </div>
@@ -483,23 +574,19 @@ Vehicle Information
 
 <div class="panel">
 
-<div class="panel-title">
+<div class="panelTitle">
 System Console
 </div>
 
-<div class="panel-body">
+<div class="panelBody">
 
-<pre id="console" class="console">
-DEEPAK DABI VCI SCAN initialized.
-Waiting for Local VCI Bridge...
-</pre>
+<pre id="console" class="console"></pre>
 
 </div>
 
 </div>
 
 </section>
-
 
 
 <!-- DIAGNOSTICS -->
@@ -509,8 +596,13 @@ Waiting for Local VCI Bridge...
 <div class="topbar">
 
 <div>
+
 <h1>Full VCI Scan</h1>
-<p>Scan all supported vehicle ECUs</p>
+
+<p>
+Scan all available ECUs
+</p>
+
 </div>
 
 <button id="scanButton" class="primary">
@@ -521,14 +613,14 @@ START FULL SCAN
 
 <div class="panel">
 
-<div class="panel-title">
+<div class="panelTitle">
 Diagnostic Result
 </div>
 
-<div class="panel-body">
+<div class="panelBody">
 
 <pre id="scanResult" class="console">
-Ready for VCI scan.
+Ready.
 </pre>
 
 </div>
@@ -538,25 +630,21 @@ Ready for VCI scan.
 </section>
 
 
-
 <!-- ECU -->
 
 <section id="ecu" class="page">
 
 <div class="topbar">
 
-<div>
 <h1>ECU Manager</h1>
-<p>Individual ECU diagnostics</p>
-</div>
 
 </div>
 
 <div class="panel">
 
-<div class="panel-body">
+<div class="panelBody">
 
-<div id="ecuGrid" class="ecu-grid"></div>
+<div id="ecuGrid" class="ecuGrid"></div>
 
 </div>
 
@@ -565,19 +653,15 @@ Ready for VCI scan.
 </section>
 
 
-
 <!-- DTC -->
 
 <section id="dtc" class="page">
 
 <div class="topbar">
 
-<div>
 <h1>DTC Manager</h1>
-<p>Read and clear diagnostic trouble codes</p>
-</div>
 
-<div class="action-row">
+<div class="actionRow">
 
 <button id="readDtcBtn">
 READ DTC
@@ -593,7 +677,7 @@ CLEAR DTC
 
 <div class="panel">
 
-<div class="panel-body">
+<div class="panelBody">
 
 <pre id="dtcResult" class="console">
 No DTC data.
@@ -606,20 +690,16 @@ No DTC data.
 </section>
 
 
-
 <!-- LIVE DATA -->
 
 <section id="live" class="page">
 
 <div class="topbar">
 
-<div>
 <h1>Live Data</h1>
-<p>Real-time vehicle parameters</p>
-</div>
 
 <button id="liveBtn">
-REFRESH LIVE DATA
+REFRESH
 </button>
 
 </div>
@@ -627,12 +707,12 @@ REFRESH LIVE DATA
 <div class="cards">
 
 <div class="card">
-<small>BATTERY SOC</small>
+<small>SOC</small>
 <h2 id="liveSoc">--</h2>
 </div>
 
 <div class="card">
-<small>BATTERY VOLTAGE</small>
+<small>VOLTAGE</small>
 <h2 id="liveVoltage">--</h2>
 </div>
 
@@ -642,7 +722,7 @@ REFRESH LIVE DATA
 </div>
 
 <div class="card">
-<small>VEHICLE SPEED</small>
+<small>SPEED</small>
 <h2 id="liveSpeed">--</h2>
 </div>
 
@@ -651,27 +731,24 @@ REFRESH LIVE DATA
 </section>
 
 
-
 <!-- FIRMWARE -->
 
 <section id="firmware" class="page">
 
 <div class="topbar">
 
-<div>
 <h1>Firmware Manager</h1>
-<p>Search firmware metadata</p>
-</div>
 
 </div>
 
 <div class="panel">
 
-<div class="panel-body">
+<div class="panelBody">
 
-<div class="form-grid">
+<div class="formGrid">
 
 <label>
+
 Vehicle Model
 
 <select id="firmwareModel">
@@ -690,6 +767,7 @@ Vehicle Model
 
 
 <label>
+
 ECU
 
 <select id="firmwareEcu">
@@ -726,11 +804,13 @@ SEARCH FIRMWARE
 <thead>
 
 <tr>
+
 <th>FILE</th>
 <th>MODULE</th>
 <th>MODEL</th>
 <th>ECU</th>
 <th>BUILD</th>
+
 </tr>
 
 </thead>
@@ -744,25 +824,22 @@ SEARCH FIRMWARE
 </section>
 
 
-
 <!-- PROGRAMMING -->
 
 <section id="programming" class="page">
 
 <div class="topbar">
 
-<div>
 <h1>Programming</h1>
-<p>Authorized VCI programming workflow</p>
-</div>
 
 </div>
 
 <div class="panel">
 
-<div class="panel-body">
+<div class="panelBody">
 
 <label>
+
 Selected Firmware
 
 <input id="selectedFirmware" readonly>
@@ -771,14 +848,14 @@ Selected Firmware
 
 <div class="progress">
 
-<div id="progressBar" class="progress-bar"></div>
+<div id="progressBar" class="progressBar"></div>
 
 </div>
 
-<div class="action-row">
+<div class="actionRow">
 
 <button id="verifyBtn">
-VERIFY COMPATIBILITY
+VERIFY
 </button>
 
 <button id="programBtn" class="primary">
@@ -790,7 +867,7 @@ START PROGRAMMING
 <br>
 
 <pre id="programResult" class="console">
-Programming system ready.
+Ready.
 </pre>
 
 </div>
@@ -800,27 +877,23 @@ Programming system ready.
 </section>
 
 
-
 <!-- LOGS -->
 
 <section id="logs" class="page">
 
 <div class="topbar">
 
-<div>
-<h1>Scan Logs</h1>
-<p>VCI communication history</p>
-</div>
+<h1>System Logs</h1>
 
 <button id="clearLogs">
-CLEAR LOGS
+CLEAR
 </button>
 
 </div>
 
 <div class="panel">
 
-<div class="panel-body">
+<div class="panelBody">
 
 <pre id="logsOutput" class="console"></pre>
 
@@ -838,14 +911,23 @@ CLEAR LOGS
 
 <script>
 
+/* ==========================================
+   DEEPAK DABI VCI SCAN
+   LOCAL BRIDGE CONFIGURATION
+========================================== */
+
 const BRIDGE =
 "http://127.0.0.1:8765";
 
 let vciConnected = false;
 
 
-const $ = id =>
-document.getElementById(id);
+/* ==========================================
+   HELPERS
+========================================== */
+
+const $ =
+id => document.getElementById(id);
 
 
 function addLog(message){
@@ -853,33 +935,73 @@ function addLog(message){
 const time =
 new Date().toLocaleTimeString();
 
-const text =
-"[" + time + "] " + message;
+const line =
+"[" +
+time +
+"] " +
+message;
 
 $("console").textContent +=
-"\\n" + text;
+line +
+"\n";
 
 $("logsOutput").textContent +=
-"\\n" + text;
+line +
+"\n";
 
 }
 
 
-async function api(endpoint, options = {}){
+function showBridgeError(show){
+
+if(show){
+
+$("bridgeError")
+.classList.add("show");
+
+}else{
+
+$("bridgeError")
+.classList.remove("show");
+
+}
+
+}
+
+
+/* ==========================================
+   TEST LOCAL BRIDGE
+========================================== */
+
+async function testBridge(){
+
+addLog(
+"Testing Local VCI Bridge..."
+);
+
+try{
+
+const controller =
+new AbortController();
+
+const timeout =
+setTimeout(
+() => controller.abort(),
+3000
+);
 
 const response =
 await fetch(
-BRIDGE + endpoint,
+BRIDGE +
+"/api/status",
 {
-...options,
-
-headers:{
-"Content-Type":
-"application/json",
-...(options.headers || {})
+method:"GET",
+signal:
+controller.signal
 }
+);
 
-});
+clearTimeout(timeout);
 
 if(!response.ok){
 
@@ -890,62 +1012,172 @@ response.status
 
 }
 
-return response.json();
+const data =
+await response.json();
 
-}
-
-
-
-async function connectVCI(){
-
-try{
-
-const status =
-await api(
-"/api/status"
-);
-
-const result =
-await api(
-"/api/connect",
-{
-method:"POST"
-}
-);
-
-vciConnected = true;
+showBridgeError(false);
 
 $("bridgeStatus")
 .className =
 "status online";
 
 $("bridgeStatus")
-.textContent =
-"● VCI CONNECTED";
+textContent =
+"● BRIDGE ONLINE";
 
 $("bridgeState")
-.textContent =
+textContent =
 "ONLINE";
 
 $("bridgeState")
-.className =
+className =
 "green";
 
-$("deviceState")
-textContent =
-result.device ||
-status.device ||
-"VCI DEVICE";
-
 addLog(
-"VCI Bridge connected successfully."
+"Bridge is ONLINE."
 );
+
+return data;
 
 }
 
 catch(error){
 
-vciConnected = false;
+showBridgeError(true);
+
+$("bridgeStatus")
+className =
+"status";
+
+$("bridgeStatus")
+textContent =
+"● BRIDGE OFFLINE";
+
+$("bridgeState")
+textContent =
+"OFFLINE";
+
+$("bridgeState")
+className =
+"red";
+
+addLog(
+"Bridge test failed: " +
+(error.name === "AbortError"
+?
+"Timeout"
+:
+error.message)
+);
+
+return null;
+
+}
+
+}
+
+
+/* ==========================================
+   CONNECT VCI
+========================================== */
+
+async function connectVCI(){
+
+const bridge =
+await testBridge();
+
+if(!bridge){
+
+alert(
+"VCI Bridge not running.\n\n" +
+"1. Open bridge folder.\n" +
+"2. Run START-VICI-BRIDGE.bat.\n" +
+"3. Keep the window open.\n" +
+"4. Click CONNECT VCI again."
+);
+
+return;
+
+}
+
+try{
+
+addLog(
+"Connecting to VCI..."
+);
+
+const response =
+await fetch(
+BRIDGE +
+"/api/connect",
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/json"
+}
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+"HTTP " +
+response.status
+);
+
+}
+
+const data =
+await response.json();
+
+vciConnected =
+data.connected === true;
+
+if(vciConnected){
+
+$("bridgeStatus")
+className =
+"status online";
+
+$("bridgeStatus")
+textContent =
+"● VCI CONNECTED";
+
+$("deviceState")
+textContent =
+data.device ||
+"VCI DEVICE";
+
+$("bridgeState")
+textContent =
+"ONLINE";
+
+$("bridgeState")
+className =
+"green";
+
+showBridgeError(false);
+
+addLog(
+"VCI connected successfully."
+);
+
+}else{
+
+throw new Error(
+data.message ||
+"VCI connection failed."
+);
+
+}
+
+}
+
+catch(error){
+
+vciConnected =
+false;
 
 addLog(
 "VCI connection failed: " +
@@ -953,8 +1185,8 @@ error.message
 );
 
 alert(
-"VCI Bridge not running.\\n\\n" +
-"Start the Windows Local VCI Bridge first."
+"VCI connection failed.\n\n" +
+error.message
 );
 
 }
@@ -962,6 +1194,9 @@ alert(
 }
 
 
+/* ==========================================
+   IDENTIFY VEHICLE
+========================================== */
 
 async function identifyVehicle(){
 
@@ -977,26 +1212,30 @@ return;
 
 try{
 
-const data =
-await api(
+const response =
+await fetch(
+BRIDGE +
 "/api/vehicle/identify",
 {
 method:"POST"
 }
 );
 
+const data =
+await response.json();
+
 $("vehicleState")
-.textContent =
+textContent =
 data.model ||
 "UNKNOWN";
 
 $("modelName")
-.textContent =
+textContent =
 data.model ||
 "--";
 
 $("vin")
-.textContent =
+textContent =
 data.vin ||
 "--";
 
@@ -1009,7 +1248,8 @@ addLog(
 catch(error){
 
 addLog(
-"Vehicle identification failed."
+"Vehicle identification failed: " +
+error.message
 );
 
 }
@@ -1017,6 +1257,9 @@ addLog(
 }
 
 
+/* ==========================================
+   FULL SCAN
+========================================== */
 
 async function fullScan(){
 
@@ -1031,8 +1274,8 @@ return;
 }
 
 $("scanResult")
-.textContent =
-"Starting full VCI scan...";
+textContent =
+"Starting Full VCI Scan...\n";
 
 addLog(
 "Full VCI scan started."
@@ -1040,16 +1283,20 @@ addLog(
 
 try{
 
-const data =
-await api(
+const response =
+await fetch(
+BRIDGE +
 "/api/diagnostics/scan",
 {
 method:"POST"
 }
 );
 
+const data =
+await response.json();
+
 $("scanResult")
-.textContent =
+textContent =
 JSON.stringify(
 data,
 null,
@@ -1065,17 +1312,73 @@ addLog(
 catch(error){
 
 $("scanResult")
-.textContent =
+textContent =
 error.message;
 
 addLog(
-"Full VCI scan failed."
+"Full scan failed."
 );
 
 }
 
 }
 
+
+/* ==========================================
+   ECU
+========================================== */
+
+const ecus = [
+
+"TCU",
+"VCU",
+"MCU",
+"EHL",
+"BMS-1",
+"BMS-1B",
+"BMS-1X"
+
+];
+
+
+ecus.forEach(
+ecu => {
+
+const box =
+document.createElement(
+"div"
+);
+
+box.className =
+"ecu";
+
+box.innerHTML =
+
+"<strong>" +
+ecu +
+"</strong>" +
+
+'<div class="ecuStatus">' +
+"● READY" +
+"</div>" +
+
+"<button>SCAN ECU</button>";
+
+box
+.querySelector(
+"button"
+)
+.onclick =
+() =>
+scanECU(ecu);
+
+$("ecuGrid")
+.appendChild(
+box
+);
+
+}
+);
 
 
 async function scanECU(ecu){
@@ -1092,23 +1395,29 @@ return;
 
 try{
 
-const data =
-await api(
+const response =
+await fetch(
+BRIDGE +
 "/api/ecu/scan",
 {
 method:"POST",
-
+headers:{
+"Content-Type":
+"application/json"
+},
 body:
 JSON.stringify({
 ecu:ecu
 })
-
 }
 );
 
+const data =
+await response.json();
+
 alert(
 ecu +
-" Scan Result:\\n\\n" +
+" RESULT\n\n" +
 JSON.stringify(
 data,
 null,
@@ -1118,7 +1427,7 @@ null,
 
 addLog(
 ecu +
-" ECU scan completed."
+" scan completed."
 );
 
 }
@@ -1135,6 +1444,9 @@ ecu +
 }
 
 
+/* ==========================================
+   DTC
+========================================== */
 
 async function readDTC(){
 
@@ -1150,17 +1462,22 @@ return;
 
 try{
 
-const data =
-await api(
+const response =
+await fetch(
+BRIDGE +
 "/api/dtc/read"
 );
 
+const data =
+await response.json();
+
 $("dtcCount")
-.textContent =
-data.count || 0;
+textContent =
+data.count ||
+0;
 
 $("dtcResult")
-.textContent =
+textContent =
 JSON.stringify(
 data,
 null,
@@ -1184,7 +1501,6 @@ addLog(
 }
 
 
-
 async function clearDTC(){
 
 if(!vciConnected){
@@ -1198,21 +1514,25 @@ return;
 }
 
 if(!confirm(
-"Are you sure you want to clear DTC?"
+"Clear all diagnostic trouble codes?"
 )) return;
 
 try{
 
-const data =
-await api(
+const response =
+await fetch(
+BRIDGE +
 "/api/dtc/clear",
 {
 method:"POST"
 }
 );
 
+const data =
+await response.json();
+
 $("dtcResult")
-.textContent =
+textContent =
 JSON.stringify(
 data,
 null,
@@ -1220,11 +1540,11 @@ null,
 );
 
 $("dtcCount")
-.textContent =
+textContent =
 "0";
 
 addLog(
-"DTC clear command sent."
+"DTC clear command completed."
 );
 
 }
@@ -1240,6 +1560,9 @@ addLog(
 }
 
 
+/* ==========================================
+   LIVE DATA
+========================================== */
 
 async function getLiveData(){
 
@@ -1255,42 +1578,47 @@ return;
 
 try{
 
-const data =
-await api(
+const response =
+await fetch(
+BRIDGE +
 "/api/live-data"
 );
 
+const data =
+await response.json();
+
 $("liveSoc")
-.textContent =
-(data.soc || "--") +
+textContent =
+(data.soc ?? "--") +
 "%";
 
 $("liveVoltage")
-.textContent =
-(data.voltage || "--") +
+textContent =
+(data.voltage ?? "--") +
 " V";
 
 $("liveRpm")
-.textContent =
-data.rpm || "--";
+textContent =
+data.rpm ??
+"--";
 
 $("liveSpeed")
-.textContent =
-(data.speed || "--") +
+textContent =
+(data.speed ?? "--") +
 " km/h";
 
 $("socValue")
-.textContent =
-(data.soc || "--") +
+textContent =
+(data.soc ?? "--") +
 "%";
 
 $("voltageValue")
-.textContent =
-(data.voltage || "--") +
+textContent =
+(data.voltage ?? "--") +
 " V";
 
 addLog(
-"Live data refreshed."
+"Live data updated."
 );
 
 }
@@ -1298,7 +1626,7 @@ addLog(
 catch(error){
 
 addLog(
-"Live data request failed."
+"Live data failed."
 );
 
 }
@@ -1306,6 +1634,9 @@ addLog(
 }
 
 
+/* ==========================================
+   FIRMWARE DATABASE
+========================================== */
 
 async function searchFirmware(){
 
@@ -1325,17 +1656,18 @@ $("firmwareModel").value;
 const ecu =
 $("firmwareEcu").value;
 
-const table =
-$("firmwareTable");
-
-table.innerHTML = "";
-
 const results =
 database.filter(
 item =>
 item.model === model &&
 item.ecu === ecu
 );
+
+const table =
+$("firmwareTable");
+
+table.innerHTML =
+"";
 
 results.forEach(
 item => {
@@ -1367,7 +1699,8 @@ item.ecu +
 item.build +
 "</td>";
 
-row.onclick = () => {
+row.onclick =
+() => {
 
 $("selectedFirmware")
 .value =
@@ -1407,7 +1740,8 @@ results.length +
 catch(error){
 
 alert(
-"Firmware database not found."
+"Firmware database not found.\n\n" +
+error.message
 );
 
 }
@@ -1415,6 +1749,9 @@ alert(
 }
 
 
+/* ==========================================
+   FIRMWARE VERIFY
+========================================== */
 
 async function verifyFirmware(){
 
@@ -1433,22 +1770,28 @@ return;
 
 try{
 
-const data =
-await api(
+const response =
+await fetch(
+BRIDGE +
 "/api/firmware/verify",
 {
 method:"POST",
-
+headers:{
+"Content-Type":
+"application/json"
+},
 body:
 JSON.stringify({
 file:file
 })
-
 }
 );
 
+const data =
+await response.json();
+
 $("programResult")
-.textContent =
+textContent =
 JSON.stringify(
 data,
 null,
@@ -1460,7 +1803,7 @@ null,
 catch(error){
 
 $("programResult")
-.textContent =
+textContent =
 error.message;
 
 }
@@ -1468,6 +1811,9 @@ error.message;
 }
 
 
+/* ==========================================
+   PROGRAMMING
+========================================== */
 
 async function programFirmware(){
 
@@ -1501,30 +1847,40 @@ if(!confirm(
 try{
 
 $("progressBar")
-.style.width =
-"100%";
+style.width =
+"50%";
 
-const data =
-await api(
+const response =
+await fetch(
+BRIDGE +
 "/api/firmware/program",
 {
 method:"POST",
-
+headers:{
+"Content-Type":
+"application/json"
+},
 body:
 JSON.stringify({
 file:file
 })
-
 }
 );
 
+const data =
+await response.json();
+
 $("programResult")
-.textContent =
+textContent =
 JSON.stringify(
 data,
 null,
 2
 );
+
+$("progressBar")
+style.width =
+"100%";
 
 addLog(
 "Programming workflow requested."
@@ -1535,11 +1891,11 @@ addLog(
 catch(error){
 
 $("progressBar")
-.style.width =
+style.width =
 "0%";
 
 $("programResult")
-.textContent =
+textContent =
 error.message;
 
 }
@@ -1547,60 +1903,9 @@ error.message;
 }
 
 
-
-const ecus = [
-
-"TCU",
-"VCU",
-"MCU",
-"EHL",
-"BMS-1",
-"BMS-1B",
-"BMS-1X"
-
-];
-
-
-ecus.forEach(
-ecu => {
-
-const box =
-document.createElement(
-"div"
-);
-
-box.className =
-"ecu";
-
-box.innerHTML =
-
-'<div class="ecu-name">' +
-ecu +
-'</div>' +
-
-'<div class="ecu-status">' +
-'● READY' +
-'</div>' +
-
-'<button>SCAN ECU</button>';
-
-box
-.querySelector(
-"button"
-)
-.onclick =
-() =>
-scanECU(ecu);
-
-$("ecuGrid")
-.appendChild(
-box
-);
-
-}
-);
-
-
+/* ==========================================
+   NAVIGATION
+========================================== */
 
 document
 .querySelectorAll(
@@ -1609,7 +1914,8 @@ document
 .forEach(
 button => {
 
-button.onclick = () => {
+button.onclick =
+() => {
 
 document
 .querySelectorAll(
@@ -1631,8 +1937,8 @@ document
 ".page"
 )
 .forEach(
-page =>
-page.classList.remove(
+p =>
+p.classList.remove(
 "active"
 )
 );
@@ -1650,10 +1956,21 @@ button.dataset.page
 );
 
 
+/* ==========================================
+   BUTTON EVENTS
+========================================== */
 
 $("connectBtn")
 .onclick =
 connectVCI;
+
+$("retryBtn")
+.onclick =
+testBridge;
+
+$("testBtn")
+.onclick =
+testBridge;
 
 $("identifyBtn")
 .onclick =
@@ -1692,14 +2009,19 @@ $("programBtn")
 programFirmware;
 
 $("clearLogs")
-.onclick = () => {
+.onclick =
+() => {
 
 $("logsOutput")
-.textContent = "";
+.textContent =
+"";
 
 };
 
 
+/* ==========================================
+   INITIALIZE
+========================================== */
 
 addLog(
 "DEEPAK DABI VCI SCAN initialized."
@@ -1708,6 +2030,17 @@ addLog(
 addLog(
 "Bridge endpoint: " +
 BRIDGE
+);
+
+addLog(
+"Waiting for Local VCI Bridge..."
+);
+
+/* Auto check after 1 second */
+
+setTimeout(
+testBridge,
+1000
 );
 
 </script>
